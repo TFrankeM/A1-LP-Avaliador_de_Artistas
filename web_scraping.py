@@ -21,8 +21,7 @@ def AlbumsTitle(url):
     classes_album_titles= soup.find_all("h3",attrs={"class": "albumTitle"})
     classes_name_of_musics = soup.find_all("a", attrs={"class": "nameMusic"})
     classes_year_of_releases = soup.find_all("p",attrs={"class": "albumYear"})
-    
-    
+   
     # Em cada for pegamos do trecho de código epenas os textos que nos interressa.
     
     for album_title in classes_album_titles:

@@ -167,19 +167,205 @@ def GasolineNoLugar(posicao):
     letras_das_musicas.insert(posicao, gasoline_letra_completa[0])
 GasolineNoLugar(26)
 
+
+
+
+duracao_das_musicas =  []
+
+def DuracaoDominion(link):
+    """
+    DuracaoDominion encontra a duração de cada música do álbum dominion
+    :param link: Link para o site que contém a duração de cada música do álbum Dominion
+    :return: Adiciona a duração de cada música do álbum Dominion a lista de duração de todas as músicas da banda
+    """
+    site = requests.get(link).content
+    soup = BeautifulSoup(site,'html.parser')
+    tempo_duracao = soup.find_all("time",attrs={"class": "songs-list-row__length"})
+    
+    for duracao in tempo_duracao:
+        duracao_das_musicas.append(duracao.get_text(strip=True))
+        
+    return duracao_das_musicas
+DuracaoDominion("https://music.apple.com/pt/album/dominion/1585664659")
+
+
+def DuracaoUnleashed(link):
+    """
+    DuracaoUnleashed encontra a duração de cada música do álbum Unleashed
+    :param link: Link para o site que contém a duração de cada música do álbum Unleashed
+    :return: Adiciona a duração de cada música do álbum Unleashed a lista de duração de todas as músicas da banda
+    """
+    site = requests.get(link).content
+    soup = BeautifulSoup(site,'html.parser')
+    tempo_duracao = soup.find_all("time",attrs={"class": "songs-list-row__length"})
+    
+    for duracao in tempo_duracao:
+        duracao_das_musicas.append(duracao.get_text(strip=True))
+        
+    return duracao_das_musicas
+DuracaoUnleashed("https://music.apple.com/br/album/unleashed/1114195788")
+
+
+def DuracaoRise(link):
+    """
+    DuracaoRise encontra a duração de cada música do álbum Rise
+    :param link: Link para o site que contém a duração de cada música do álbum Rise
+    :return: Adiciona a duração de cada música do álbum Rise a lista de duração de todas as músicas da banda
+    """
+    duracao_rise = []
+    site = requests.get(link).content
+    soup = BeautifulSoup(site,'html.parser')
+    tempo_duracao = soup.find_all("time",attrs={"class": "songs-list-row__length"})
+    
+    for duracao in tempo_duracao:
+        duracao_rise.append(duracao.get_text(strip=True))
+        
+    for duracao in duracao_rise[0:15]:
+        duracao_das_musicas.append(duracao)
+    
+    return duracao_das_musicas
+DuracaoRise("https://music.apple.com/br/album/rise-deluxe-edition/662457451")
+
+
+def DuracaoAwake(link):
+    """
+    DuracaoAwake encontra a duração de cada música do álbum Awake
+    :param link: Link para o site que contém a duração de cada música do álbum Awake
+    :return: Adiciona a duração de cada música do álbum Awake a lista de duração de todas as músicas da banda
+    """
+    site = requests.get(link).content
+    soup = BeautifulSoup(site,'html.parser')
+    tempo_duracao = soup.find_all("time",attrs={"class": "songs-list-row__length"})
+    
+    for duracao in tempo_duracao:
+        duracao_das_musicas.append(duracao.get_text(strip=True))
+
+    return duracao_das_musicas
+DuracaoAwake("https://music.apple.com/br/album/awake/326077729")
+
+def DuracaoComatose(link):
+    """
+    DuracaoComatose encontra a duração de cada música do álbum Comatose
+    :param link: Link para o site que contém a duração de cada música do álbum Comatose
+    :return: Adiciona a duração de cada música do álbum Comatose a lista de duração de todas as músicas da banda
+    """
+    site = requests.get(link).content
+    soup = BeautifulSoup(site,'html.parser')
+    tempo_duracao = soup.find_all("time",attrs={"class": "songs-list-row__length"})
+
+    for duracao in tempo_duracao:
+        duracao_das_musicas.append(duracao.get_text(strip=True))
+
+    return duracao_das_musicas
+DuracaoComatose("https://music.apple.com/br/album/comatose/193381606")
+
+def DuracaoCollide(link):
+    """
+    DuracaoCollide encontra a duração de cada música do álbum Collide
+    :param link: Link para o site que contém a duração de cada música do álbum Collide
+    :return: Adiciona a duração de cada música do álbum Collide a lista de duração de todas as músicas da banda
+    """
+    duracao_collide = []
+    site = requests.get(link).content
+    soup = BeautifulSoup(site,'html.parser')
+    tempo_duracao = soup.find_all("td",attrs={"class": "tracklist-length"})
+    
+    for duracao in tempo_duracao:
+        duracao_collide.append(duracao.get_text(strip=True))
+    
+    for duracao in duracao_collide[0:10]:
+        duracao_das_musicas.append(duracao)
+
+    return duracao_das_musicas
+DuracaoCollide("https://en.wikipedia.org/wiki/Collide_(Skillet_album)")
+
+
+def DuracaoAlien(link):
+    """
+    DuracaoAlien encontra a duração de cada música do álbum Alien
+    :param link: Link para o site que contém a duração de cada música do álbum Alien
+    :return: Adiciona a duração de cada música do álbum Alien a lista de duração de todas as músicas da banda
+    """
+    site = requests.get(link).content
+    soup = BeautifulSoup(site,'html.parser')
+    tempo_duracao = soup.find_all("time",attrs={"class": "songs-list-row__length"})
+    
+    for duracao in tempo_duracao:
+        duracao_das_musicas.append(duracao.get_text(strip=True))
+        
+    return duracao_das_musicas
+DuracaoAlien("https://music.apple.com/br/album/alien-youth/1502167776")
+
+def DuracaoArdent(link):
+    """
+    DuracaoArdent encontra a duração de cada música do álbum Ardent
+    :param link: Link para o site que contém a duração de cada música do álbum Ardent
+    :return: Adiciona a duração de cada música do álbum Ardent a lista de duração de todas as músicas da banda
+    """
+    site = requests.get(link).content
+    soup = BeautifulSoup(site,'html.parser')
+    tempo_duracao = soup.find_all("td",attrs={"class": "tracklist-length"})
+    
+    for duracao in tempo_duracao:
+        duracao_das_musicas.append(duracao.get_text(strip=True))
+        
+    return duracao_das_musicas
+DuracaoArdent("https://en.wikipedia.org/wiki/Ardent_Worship")
+
+def DuracaoInvencible(link):
+    """
+    DuracaoInvencible encontra a duração de cada música do álbum Invencible
+    :param link: Link para o site que contém a duração de cada música do álbum Invencible
+    :return: Adiciona a duração de cada música do álbum Invencible a lista de duração de todas as músicas da banda
+    """
+    site = requests.get(link).content
+    soup = BeautifulSoup(site,'html.parser')
+    tempo_duracao = soup.find_all("time",attrs={"class": "songs-list-row__length"})
+    
+    for duracao in tempo_duracao:
+        duracao_das_musicas.append(duracao.get_text(strip=True))
+    return duracao_das_musicas
+DuracaoInvencible("https://music.apple.com/br/album/invincible/1502265525")
+
+
+def DuracaoHey(link):
+    """
+    DuracaoHey encontra a duração de cada música do álbum Hey
+    :param link: Link para o site que contém a duração de cada música do álbum Hey
+    :return: Adiciona a duração de cada música do álbum Hey a lista de duração de todas as músicas da banda
+    """
+    site = requests.get(link).content
+    soup = BeautifulSoup(site,'html.parser')
+    tempo_duracao = soup.find_all("time",attrs={"class": "songs-list-row__length"})
+    
+    for duracao in tempo_duracao:
+        duracao_das_musicas.append(duracao.get_text(strip=True))
+        
+    return duracao_das_musicas
+DuracaoHey("https://music.apple.com/br/album/hey-you-i-love-your-soul/1502163392")
+
+def DuracaoSkillet(link):
+    """
+    DuracaoSkillet encontra a duração de cada música do álbum Skillet
+    :param link: Link para o site que contém a duração de cada música do álbum Skillet
+    :return: Adiciona a duração de cada música do álbum Skillet a lista de duração de todas as músicas da banda
+    """
+    site = requests.get(link).content
+    soup = BeautifulSoup(site,'html.parser')
+    tempo_duracao = soup.find_all("time",attrs={"class": "songs-list-row__length"})
+    
+    for duracao in tempo_duracao:
+        duracao_das_musicas.append(duracao.get_text(strip=True))
+        
+    return duracao_das_musicas
+DuracaoSkillet("https://music.apple.com/br/album/skillet/1502161585")
+
+
 # Função que vai criar uma versão do dataframe.
 
-def DataFrame(col1,col2,col3,col4):
-    dataframe_skillet = pd.DataFrame(list(zip(col1,col2,col3,col4)),columns=["Álbuns","Músicas","Ano dos Lançamentos","Letras"])
-    return dataframe_skillet.to_excel("dataframe_skillet.xlsx")
-DataFrame(titulo_dos_albuns_repetidos,titulo_das_musicas,ano_lancamento_albuns_repetidos,letras_das_musicas)
-
-
-
-
-
-
-
-
-
-
+def DataFrame(col1,col2,col3,col4,col5):
+    dataframe_skillet = pd.DataFrame(list(zip(col1,col2,col3,col4,col5)),columns=["Álbuns","Músicas","Ano dos Lançamentos","Duração","Letras"])
+    dataframe_skillet.to_excel("DataFrame_Skillet.xlsx")
+    
+    return dataframe_skillet
+DataFrame(titulo_dos_albuns_repetidos,titulo_das_musicas,ano_lancamento_albuns_repetidos,duracao_das_musicas,letras_das_musicas)

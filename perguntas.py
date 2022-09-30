@@ -20,12 +20,12 @@ def musica_ouvida_album(dataframe):
     
     # Frame do dataframe com as 3 músicas mais ouvidas de cada álbum.
         # .sort_values(['Álbuns','Reproduções'], ascending=False) => ordena 1º em relação a 'Álbuns' e depois a 'Reproduções' em ordem decrescente.
-        # .groupby('Álbuns').head(3)                            => seleciona as 3 musicas mais ouvidas de cada álbum.   
+        # .groupby('Álbuns').head(3)                              => seleciona as 3 musicas mais ouvidas de cada álbum.   
     mais_ouvidas = dataframe.sort_values(['Álbuns','Reproduções'], ascending=False).groupby('Álbuns').head(3)
     
     # Frame do dataframe com as 3 músicas menos ouvidas de cada álbum.
         # .sort_values(['Álbuns','Reproduções'], ascending=False) => ordena 1º em relação a 'Álbuns' e depois a 'Reproduções' em ordem decrescente
-        # .groupby('Álbuns').tail(3)                            => seleciona as 3 musicas menos ouvidas de cada álbum.
+        # .groupby('Álbuns').tail(3)                              => seleciona as 3 musicas menos ouvidas de cada álbum.
     menos_ouvidas = dataframe.sort_values(['Álbuns','Reproduções'], ascending=False).groupby('Álbuns').tail(3)
 
 
@@ -47,12 +47,12 @@ def musica_tamanho_album(dataframe):
     """ 
     # Frame do dataframe com as 3 músicas mais longas de cada álbum.
         # .sort_values(['Álbuns','Duração'], ascending=False) => ordena 1º em relação a 'Álbuns' e depois a 'Duração' em ordem decrescente.
-        # .groupby('Álbuns').head(3)                            => seleciona as 3 musicas mais longas de cada álbum.
+        # .groupby('Álbuns').head(3)                          => seleciona as 3 musicas mais longas de cada álbum.
     mais_longas = dataframe.sort_values(['Álbuns','Duração'], ascending=False).groupby('Álbuns').head(3)        
                                                                                                        
     # Frame do dataframe com as 3 músicas mais curtas de cada álbum.
         # .sort_values(['Álbuns','Duração'], ascending=False) => ordena 1º em relação a 'Álbuns' e depois a 'Duração' em ordem decrescente.
-        # .groupby('Álbuns').tail(3)                            => seleciona as 3 musicas mais curtas de cada álbum.
+        # .groupby('Álbuns').tail(3)                          => seleciona as 3 musicas mais curtas de cada álbum.
     mais_curtas = dataframe.sort_values(['Álbuns','Duração'], ascending=False).groupby('Álbuns').tail(3)
     
     print('\033[1;32m \nAs músicas mais longas de cada álbum são: \033[m \n', mais_longas[['Álbuns','Músicas','Duração']], sep='')
@@ -73,14 +73,14 @@ def musica_ouvida_carreira(dataframe):
     """ 
     # Frame do dataframe com as 3 músicas mais ouvidas na carreira da banda.
         # .sort_values(['Reproduções'], ascending=False) => ordena em relação a 'Reproduções' em ordem decrescente.
-        # .head(3)                                     => seleciona as 3 musicas mais tocadas.
+        # .head(3)                                       => seleciona as 3 musicas mais tocadas.
     mais_ouvidas_carreira = dataframe.sort_values(['Reproduções'], ascending=False).head(3)
     # Frame do dataframe com as 3 músicas menos ouvidas na carreira da banda.
         # .sort_values(['Reproduções'], ascending=False) => ordena em relação a 'Reproduções' em ordem decrescente.
-        # .head(3)                                     => seleciona as 3 musicas menos tocadas.
+        # .head(3)                                       => seleciona as 3 musicas menos tocadas.
     menos_ouvidas_carreira = dataframe.sort_values(['Reproduções'], ascending=False).tail(3)
     
-    print(f'\033[1;32m \nAs músicas mais ouvidas entre todas as músicas da banda são: \033[m \n', mais_ouvidas_carreira[['Álbuns','Músicas','Reproduções']], sep='')
+    print('\033[1;32m \nAs músicas mais ouvidas entre todas as músicas da banda são: \033[m \n', mais_ouvidas_carreira[['Álbuns','Músicas','Reproduções']], sep='')
     print('\033[1;32m \nAs músicas menos ouvidas entre todas as músicas da banda são: \033[m \n', menos_ouvidas_carreira[['Álbuns','Músicas','Reproduções']], sep='')
     # print('\n\n',mais_ouvidas_carreira)
     # print('\n\n',menos_ouvidas_carreira)
@@ -96,14 +96,14 @@ def musica_tamanho_carreira(dataframe):
     """ 
     # Frame do dataframe com as 3 músicas mais longas da banda.
         # .sort_values(['Duração'], ascending=False) => ordena em relação a 'Duração' em ordem decrescente.
-        # .head(3)                                     => seleciona as 3 musicas mais longas.
-    mais_longas_carreira = dataframe.sort_values(['Duração'], ascending=False).head(3)
+        # .head(3)                                   => seleciona as 3 musicas mais longas.
+    mais_longas_carreira = dataframe.sort_values(['Duração'], ascending=False).head(5)
     # Frame do dataframe com as 3 músicas mais curtas da banda.
         # .sort_values(['Duração'], ascending=False) => ordena em relação a 'Duração' em ordem decrescente.
-        # .head(3)                                     => seleciona as 3 musicas mais curtas.
+        # .head(3)                                   => seleciona as 3 musicas mais curtas.
     mais_curtas_carreira = dataframe.sort_values(['Duração'], ascending=False).tail(3)
     
-    print(f'\033[1;32m \nAs músicas mais longas entre todas as músicas da banda são: \033[m \n', mais_longas_carreira[['Álbuns','Músicas','Duração']], sep='')
+    print('\033[1;32m \nAs músicas mais longas entre todas as músicas da banda são: \033[m \n', mais_longas_carreira[['Álbuns','Músicas','Duração']], sep='')
     print('\033[1;32m \nAs músicas mais curtas entre todas as músicas da banda são: \033[m \n', mais_curtas_carreira[['Álbuns','Músicas','Duração']], sep='')
     # print(mais_curta_carreira)
     # print(mais_longa_carreira)
@@ -118,8 +118,40 @@ def mais_premiado(dataframe):
 
 ## Relação entre a duração da música e sua popularidade ##
 def musica_popularidade(dataframe):
-    pass
-    # return relacao
+    """
+    musica_popularidade retorna uma relação entre a duração da música e sua popularidade em relação ao número de reproduções.
+    :param dataframe: Dataframe de onde são retiradas as informações.
+    :return: Retorna um dataframe com intervalos de duração e a média das reprodução das músicas daquele intervalo.
+    """
+    # Criação de máscaras para intervalos de 1 minuto de duração.
+    mask_0_a_2_minutos = dataframe['Duração'].between('0:00','2:00')
+    mask_2_a_3_minutos = dataframe['Duração'].between('2:01','3:00')
+    mask_3_a_4_minutos = dataframe['Duração'].between('3:01','4:00')
+    mask_4_a_5_minutos = dataframe['Duração'].between('4:01','5:00')
+    mask_5_a_6_minutos = dataframe['Duração'].between('5:01','6:00')
+    mask_6_a_7_minutos = dataframe['Duração'].between('6:01','7:00')
+    # Criação de um dataframe com os intervalos de duração e com as médias de reprodução das músicas com duração naquele intervalo.
+    relacao = pd.DataFrame({'Intervalo de Duração': ['0 a 2 min', '2 a 3 min', '3 a 4 min', '4 a 5 min', '5 a 6 min', '6 a 7 min'],
+                            'Média de Reproduções': [
+                                                    dataframe.loc[mask_0_a_2_minutos, ['Reproduções']].mean()[0],
+                                                    dataframe.loc[mask_2_a_3_minutos, ['Reproduções']].mean()[0],
+                                                    dataframe.loc[mask_3_a_4_minutos, ['Reproduções']].mean()[0],
+                                                    dataframe.loc[mask_4_a_5_minutos, ['Reproduções']].mean()[0],
+                                                    dataframe.loc[mask_5_a_6_minutos, ['Reproduções']].mean()[0],
+                                                    dataframe.loc[mask_6_a_7_minutos, ['Reproduções']].mean()[0],
+                                                    ]})
+    relacao = relacao.sort_values(['Média de Reproduções'], ascending=False)
+    
+    print('\033[1;32m \nComo é possível observar na tabela abaixo, as músicas com maior média de reproduções \033[m', end='')
+    print(f'\033[1;32mtêm duração dentro do intervalo de {relacao["Intervalo de Duração"].max()}: \033[m')
+    print(relacao)
+    if relacao["Intervalo de Duração"].max() <= '3:00':
+        print('\033[1;32m\nLogo, podemos concluir que músicas mais curtas são mais populares. \033[m')
+    if '3;00' < relacao["Intervalo de Duração"].max() <= '4:00':
+        print('\033[1;32m\nLogo, podemos concluir que músicas de duração média são mais populares. \033[m')
+    else:
+        print('\033[1;32m\nLogo, podemos concluir que músicas mais longas são mais populares. \033[m')
+    return relacao
 
 
                 ### GRUPO DE PERGUNTAS 2 ###
@@ -191,28 +223,35 @@ pd.options.display.max_columns = 5
 pd.options.display.float_format = "{:.2f}".format
 
 # Dataframes que estão sendo usados
-dataframe = pd.read_excel('dataframe_skillet.xlsx')
-dataframe = pd.read_excel('Albuns 1 e 2.xlsx')
+dataframe = pd.read_excel('Dataframe.xlsx')
+#dataframe = pd.read_excel('Albuns 1 e 2.xlsx')
 
 # print(dataframe)
 
 
-musica_ouvida_album(dataframe)
+# musica_ouvida_album(dataframe)
 
-print('\033[1;36m~\033[m' * 50)
+# print('\033[1;36m~\033[m' * 50)
 
-musica_tamanho_album(dataframe)
+# musica_tamanho_album(dataframe)
 
-print('\033[1;36m~\033[m' * 50)
+# print('\033[1;36m~\033[m' * 50)
 
-musica_ouvida_carreira(dataframe)
+# musica_ouvida_carreira(dataframe)
 
-print('\033[1;36m~\033[m' * 50)
+# print('\033[1;36m~\033[m' * 50)
 
-musica_tamanho_carreira(dataframe)
+# musica_tamanho_carreira(dataframe)
 
-print('\033[1;36m~\033[m' * 50)
+# print('\033[1;36m~\033[m' * 50)
 
+# NOT READY => mais_premiado(dataframe)
+
+# print('\033[1;36m~\033[m' * 50)
+
+# musica_popularidade(dataframe)
+
+# print('\033[1;36m~\033[m' * 50)
 
 
 

@@ -218,9 +218,57 @@ def palavra_titulo_musica(dataframe):
     
 ## Palavras mais comuns nas letras das músicas, por álbum ##
 def palavra_letra_album(dataframe):
-    pass
+    """
+    palavra_titulo_album encontra a frequência das palavras das letras das músicas, por álbum.
+    :param dataframe: Dataframe de onde são retiradas as informações.
+    :return: Retorna um dicionário com uma string para cada álbum contendo todas as palavras dele e um dicionário com um dataframe contendo as suas palavras únicas e o número de ocorrências delas.
+    """
+    # Agrupamos a coluna de letras em relação aos álbuns e adicionamos a um dicionário.
+    dicionario = dict(tuple(dataframe.groupby('Álbuns')['Letras']))
+    # Dicionário com as strings das letras dos álbuns
+    dic_palavras_por_album = {}
+    # Dicionário com a frequência das palavras por álbum
+    dic_freq_palav_por_album = {}
+    for chave in dicionario:
+        # As chaves são:
+            # Alien Youth
+            # Ardent Worship
+            # Awake
+            # Collide
+            # Comatose
+            # Dominion
+            # Hey You, I Love Your Soul
+            # Invincible
+            # Rise
+            # Skillet
+            # Unleashed
+        # Dataframe com as letras de todas as músicas de um álbum na forma de dataframe.
+        album = pd.DataFrame({'Letras':dicionario[chave]})
+        # As letras das músicas são separadas em uma palavra por linha em um comprido dataframe de uma coluna.
+        palav_letras_por_album = album['Letras'].str.lower().str.split().explode().str.replace("[(){}[?!.:;,/-]","", regex=True)
+        # São contadas as ocorrências de cada palavra do álbum.
+        freq_palav_letras_por_album = palav_letras_por_album.value_counts()
+        
+        # Gerar um dataframe para deixar o print do console mais organizado e facilitar a geração de gráficos.
+        frequencias_palavras_album = pd.DataFrame({'Palavras únicas': freq_palav_letras_por_album.index,'Ocorrências':freq_palav_letras_por_album.tolist()})
+        
+        # Adicionar o dataframe de cada um dos álbum a um dicionário cuja chave é o nome do álbum.
+        dic_freq_palav_por_album[f'{chave}'] = frequencias_palavras_album
 
+        # Retornar um dicionário com strings das letras de cada álbum, cada chave é o nome do respectivo álbum, para que seja feito a WordCloud.
+        palavras_todas_as_letras = []
+        for elemento in palav_letras_por_album:
+            palavras_todas_as_letras.append(elemento)
+        palavras_todas_as_letras = ' '.join(palavras_todas_as_letras)
+        dic_palavras_por_album[chave] = palavras_todas_as_letras
+        
+    print('\033[1;32m \nAs palavras mais frequentes nas letras das músicas, por álbum, são: \033[m \n')
+    for album in dic_freq_palav_por_album:
+        print(f' \033[1;36m{ album }\033[m \n { dic_freq_palav_por_album[album].head(5) } \n')
+
+    return dic_palavras_por_album, dic_freq_palav_por_album
     
+
 ## Palavras mais comuns nas letras das músicas, em toda a discografia ##
 def palavra_letra_carreira(dataframe):
     """
@@ -236,6 +284,8 @@ def palavra_letra_carreira(dataframe):
         # .value_counts() => conta a frequência de cada palavra
     palav_letras_carreira = dataframe["Letras"].str.lower().str.split().explode().str.replace("[(){}[?!.:;,/-]","", regex=True)
     freq_palav_letra_carreira = palav_letras_carreira.value_counts()
+    # Gerar um dataframe para deixar o print do console mais organizado e facilitar a geração de gráficos.
+    freq_palav_letra_carreira = pd.DataFrame({'Palavras únicas': freq_palav_letra_carreira.index,'Ocorrências':freq_palav_letra_carreira.tolist()})
     
     # Retornar uma string para que seja feito a WordCloud
     palavras_letras = []
@@ -303,7 +353,7 @@ dataframe = pd.read_excel('Dataframe.xlsx')
 
 # print('\033[1;36m~\033[m' * 50)
 
-# NOT READY => palavra_letra_album(dataframe)
+palavra_letra_album(dataframe)
 
 # print('\033[1;36m~\033[m' * 50)
 

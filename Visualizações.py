@@ -1,3 +1,9 @@
+from pathlib import Path
+import matplotlib.pyplot as plt
+from wordcloud import STOPWORDS, WordCloud
+import sys, os
+import numpy as np
+import pandas as pd
 import interface as it
 import perguntas as pg
 
@@ -11,6 +17,17 @@ def grafico1(dataframe):
     mais_ouvidas, menos_ouvidas = pg.musica_ouvida_album(dataframe)
     mais_ouvidas.plot(x='Álbuns', y='Popularidade')
 
+
 grafico1(dataframe)
 
+def wordcloud1(dataframe):
+    palavras_titulo, freq_palavras_musica = pg.palavra_letra_carreira(dataframe)
 
+    stopwords = STOPWORDS
+    
+    wc = WordCloud(background_color="white", stopwords=stopwords, height=640, width=1280)
+    wc.generate(palavras_titulo)
+    
+    # store to file
+    wc.to_file("WordCloud1.png")
+wordcloud1(dataframe)

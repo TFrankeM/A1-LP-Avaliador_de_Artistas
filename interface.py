@@ -1,9 +1,10 @@
 import perguntas as pg
 import pandas as pd
 
+
 def ler_banco_de_dados():
-    dataframe = pd.read_excel('BD - Skillet.xlsx')
-    return dataframe
+    return pd.read_excel('BD - Skillet.xlsx')
+    
 
 def interface():
     # Define o número máximo de colunas exibidas no console. 
@@ -24,9 +25,9 @@ def interface():
     # Acionamento de todas as funções
     
     mais_ouvidas, menos_ouvidas = pg.musica_ouvida_album(dataframe)
-    
-    print('\033[1;32m \nAs músicas mais ouvida de cada álbum foram: \033[m \n', mais_ouvidas[['Álbuns','Músicas','Reproduções']], sep='')
-    print('\033[1;32m \nAs músicas menos ouvida de cada álbum foram: \033[m \n', menos_ouvidas[['Álbuns','Músicas','Reproduções']], sep='')
+
+    print('\033[1;32m \nAs músicas mais ouvida de cada álbum foram: \033[m \n', mais_ouvidas[['Álbuns','Músicas','Popularidade']], sep='')
+    print('\033[1;32m \nAs músicas menos ouvida de cada álbum foram: \033[m \n', menos_ouvidas[['Álbuns','Músicas','Popularidade']], sep='')
     
     print('\033[1;36m~\033[m' * 50)
     
@@ -39,8 +40,8 @@ def interface():
     
     
     mais_ouvidas_carreira, menos_ouvidas_carreira = pg.musica_ouvida_carreira(dataframe)
-    print('\033[1;32m \nAs músicas mais ouvidas entre todas as músicas da banda são: \033[m \n', mais_ouvidas_carreira[['Álbuns','Músicas','Reproduções']], sep='')
-    print('\033[1;32m \nAs músicas menos ouvidas entre todas as músicas da banda são: \033[m \n', menos_ouvidas_carreira[['Álbuns','Músicas','Reproduções']], sep='')
+    print('\033[1;32m \nAs músicas mais ouvidas entre todas as músicas da banda são: \033[m \n', mais_ouvidas_carreira[['Álbuns','Músicas','Popularidade']], sep='')
+    print('\033[1;32m \nAs músicas menos ouvidas entre todas as músicas da banda são: \033[m \n', menos_ouvidas_carreira[['Álbuns','Músicas','Popularidade']], sep='')
     
     print('\033[1;36m~\033[m' * 50)
     

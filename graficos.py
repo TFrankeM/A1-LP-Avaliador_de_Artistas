@@ -9,9 +9,11 @@ mais_ouvidas, menos_ouvidas = pg.musica_ouvida_album(data1)
 
 sns.set_theme(style="darkgrid")
 
-g = sns.catplot(data=mais_ouvidas, x="Popularidade", y="Músicas",kind="bar")
-g.despine(left=True)
-g.set_axis_labels("Popularidade","")
-g.set_titles("{col_name} {col_var}")
+p11 = sns.catplot(data=mais_ouvidas, x="Popularidade", y="Músicas",kind="bar")
+p11.set_axis_labels("Popularidade","")
 plt.title("Músicas mais populares de cada álbum")
+
+p12 = sns.catplot(data=menos_ouvidas, x="Popularidade", y="Músicas",kind="bar")
+p12.set_axis_labels("Popularidade","")
+plt.title("Músicas menos populares de cada álbum")
 plt.show()

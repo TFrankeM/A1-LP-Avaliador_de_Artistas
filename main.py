@@ -1,4 +1,5 @@
 import interface as it
 
 
-it.interface()
+arquivo = 'BD - Skillet.xlsx'
+it.ler_banco_de_dados(arquivo, True)

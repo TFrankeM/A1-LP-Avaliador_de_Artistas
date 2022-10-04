@@ -4,14 +4,15 @@ import pandas as pd
 
                     ### GRUPO DE PERGUNTAS 1 ###
                     
-## Músicas mais ouvidas e músicas menos ouvidas com base na popularidade por Álbum ##
+## Músicas mais ouvidas e músicas menos ouvidas com base na popularidade, por Álbum ##
 def musica_ouvida_album(dataframe):
     """
-    musica_ouvida_album retorna as músicas mais ouvidas e as músicas menos ouvidas por álbum.
-    :param dataframe: Dataframe de onde são retiradas as informações.
-    :return mais_ouvidas: Retorna um dataframe com as músicas mais ouvidas por álbum 
-    :return menos_ouvidas: Retorna um dataframe com as músicas menor ouvidas por álbum.
+    musica_ouvida_album retorna as músicas mais ouvidas e as músicas menos ouvidas com base na popularidade, por álbum.
+    :param dataframe: dataframe de onde são retiradas as informações.
+    :return mais_ouvidas: dataframe com as músicas mais ouvidas por álbum.
+    :return menos_ouvidas: dataframe com as músicas menor ouvidas por álbum.
     """ 
+    
     # Frame do dataframe com as 3 músicas mais ouvidas de cada álbum.
         # .sort_values(['Álbuns','Reproduções'], ascending=False) => ordena 1º em relação a 'Álbuns' e depois a 'Reproduções' em ordem decrescente.
         # .groupby('Álbuns').head(3)                              => seleciona as 3 musicas mais ouvidas de cada álbum.   
@@ -20,7 +21,7 @@ def musica_ouvida_album(dataframe):
     # Frame do dataframe com as 3 músicas menos ouvidas de cada álbum.
         # .sort_values(['Álbuns','Reproduções'], ascending=False) => ordena 1º em relação a 'Álbuns' e depois a 'Reproduções' em ordem decrescente
         # .groupby('Álbuns').tail(3)                              => seleciona as 3 musicas menos ouvidas de cada álbum.
-    menos_ouvidas = dataframe.sort_values(['Álbuns','Popularidade'], ascending=False).groupby('Álbuns').tail(3)
+    menos_ouvidas = dataframe.sort_values(['Álbuns','Popularidade'], ascending=True).groupby('Álbuns').head(3)
 
     return mais_ouvidas, menos_ouvidas
 
@@ -29,10 +30,11 @@ def musica_ouvida_album(dataframe):
 def musica_tamanho_album(dataframe):
     """
     musica_tamanho_album retorna as músicas mais longas e as músicas mais curtas por álbum.
-    :param dataframe: Dataframe de onde são retiradas as informações.
-    :return: Retorna um dataframe com as músicas mais longas por álbum e um dataframe com as
-    músicas mais curtas por álbum.
+    :param dataframe: dataframe de onde são retiradas as informações.
+    :return mais_longas: dataframe com as músicas mais longas por álbum.
+    :return mais_curtas: dataframe com as músicas mais curtas por álbum.
     """ 
+    
     # Frame do dataframe com as 3 músicas mais longas de cada álbum.
         # .sort_values(['Álbuns','Duração'], ascending=False) => ordena 1º em relação a 'Álbuns' e depois a 'Duração' em ordem decrescente.
         # .groupby('Álbuns').head(3)                          => seleciona as 3 musicas mais longas de cada álbum.
@@ -41,37 +43,30 @@ def musica_tamanho_album(dataframe):
     # Frame do dataframe com as 3 músicas mais curtas de cada álbum.
         # .sort_values(['Álbuns','Duração'], ascending=False) => ordena 1º em relação a 'Álbuns' e depois a 'Duração' em ordem decrescente.
         # .groupby('Álbuns').tail(3)                          => seleciona as 3 musicas mais curtas de cada álbum.
-    mais_curtas = dataframe.sort_values(['Álbuns','Duração'], ascending=False).groupby('Álbuns').tail(3)
-    
-    # print('\033[1;32m \nAs músicas mais longas de cada álbum são: \033[m \n', mais_longas[['Álbuns','Músicas','Duração']], sep='')
-    # print('\033[1;32m \nAs músicas mais curtas de cada álbum são: \033[m \n', mais_curtas[['Álbuns','Músicas','Duração']], sep='')
-    # print('\n\n',mais_longa)  
-    # print('\n\n', mais_curta)
+    mais_curtas = dataframe.sort_values(['Álbuns','Duração'], ascending=True).groupby('Álbuns').head(3)
     
     return mais_longas, mais_curtas
     
     
-## Músicas mais ouvidas e músicas menos ouvidas [em toda a história da banda ou artista] ##
+## Músicas mais ouvidas e músicas menos ouvidas com base na popularidade [em toda a história da banda ou artista] ##
 def musica_ouvida_carreira(dataframe):
     """
-    musica_ouvida_carreira retorna as músicas mais ouvidas e as músicas menos ouvidas na carreira da banda.
-    :param dataframe: Dataframe de onde são retiradas as informações.
-    :return: Retorna um dataframe com as músicas mais ouvidas na carreira e um dataframe com as
-    músicas menos ouvidas na carreira.
+    musica_ouvida_carreira retorna, com base na popularidade, as músicas mais ouvidas e as músicas menos
+    ouvidas dentre todas as músicas da banda.
+    :param dataframe: dataframe de onde são retiradas as informações.
+    :return mais_ouvidas_carreira: dataframe com as músicas mais ouvidas.
+    :return menos_ouvidas_carreira: dataframe com as músicas menos ouvidas.
     """ 
+    
     # Frame do dataframe com as 3 músicas mais ouvidas na carreira da banda.
         # .sort_values(['Reproduções'], ascending=False) => ordena em relação a 'Reproduções' em ordem decrescente.
         # .head(3)                                       => seleciona as 3 musicas mais tocadas.
-    mais_ouvidas_carreira = dataframe.sort_values(['Popularidade'], ascending=False).head(3)
+    mais_ouvidas_carreira = dataframe.sort_values(['Popularidade'], ascending=False).head(10)
     # Frame do dataframe com as 3 músicas menos ouvidas na carreira da banda.
         # .sort_values(['Reproduções'], ascending=False) => ordena em relação a 'Reproduções' em ordem decrescente.
         # .head(3)                                       => seleciona as 3 musicas menos tocadas.
-    menos_ouvidas_carreira = dataframe.sort_values(['Popularidade'], ascending=False).tail(3)
+    menos_ouvidas_carreira = dataframe.sort_values(['Popularidade'], ascending=True).head(10)
     
-    # print('\033[1;32m \nAs músicas mais ouvidas entre todas as músicas da banda são: \033[m \n', mais_ouvidas_carreira[['Álbuns','Músicas','Reproduções']], sep='')
-    # print('\033[1;32m \nAs músicas menos ouvidas entre todas as músicas da banda são: \033[m \n', menos_ouvidas_carreira[['Álbuns','Músicas','Reproduções']], sep='')
-    # print('\n\n',mais_ouvidas_carreira)
-    # print('\n\n',menos_ouvidas_carreira)
     return mais_ouvidas_carreira, menos_ouvidas_carreira
 
     
@@ -79,22 +74,20 @@ def musica_ouvida_carreira(dataframe):
 def musica_tamanho_carreira(dataframe):
     """
     musica_tamanho_carreira retorna as músicas mais longas e as músicas mais curtas dentre todas as músicas da banda.
-    :param dataframe: Dataframe de onde são retiradas as informações.
-    :return: Retorna um dataframe com as músicas mais longas e um dataframe com as músicas mais curtas da banda.
+    :param dataframe: dataframe de onde são retiradas as informações.
+    :return mais_longas_carreira: dataframe com as músicas mais longas da banda.
+    :return mais_curtas_carreira: dataframe com as músicas mais curtas da banda.
     """ 
+    
     # Frame do dataframe com as 3 músicas mais longas da banda.
         # .sort_values(['Duração'], ascending=False) => ordena em relação a 'Duração' em ordem decrescente.
         # .head(3)                                   => seleciona as 3 musicas mais longas.
-    mais_longas_carreira = dataframe.sort_values(['Duração'], ascending=False).head(5)
+    mais_longas_carreira = dataframe.sort_values(['Duração'], ascending=False).head(10)
     # Frame do dataframe com as 3 músicas mais curtas da banda.
         # .sort_values(['Duração'], ascending=False) => ordena em relação a 'Duração' em ordem decrescente.
         # .head(3)                                   => seleciona as 3 musicas mais curtas.
-    mais_curtas_carreira = dataframe.sort_values(['Duração'], ascending=False).tail(3)
+    mais_curtas_carreira = dataframe.sort_values(['Duração'], ascending=True).head(10)
     
-    # print('\033[1;32m \nAs músicas mais longas entre todas as músicas da banda são: \033[m \n', mais_longas_carreira[['Álbuns','Músicas','Duração']], sep='')
-    # print('\033[1;32m \nAs músicas mais curtas entre todas as músicas da banda são: \033[m \n', mais_curtas_carreira[['Álbuns','Músicas','Duração']], sep='')
-    # print(mais_curta_carreira)
-    # print(mais_longa_carreira)
     return mais_longas_carreira, mais_curtas_carreira
 
 
@@ -107,20 +100,21 @@ def mais_premiado(dataframe):
 ## Relação entre a duração da música e sua popularidade ##
 def musica_popularidade(dataframe):
     """
-    musica_popularidade retorna uma relação entre a duração da música e sua popularidade em relação ao número de reproduções.
-    :param dataframe: Dataframe de onde são retiradas as informações.
-    :return: Retorna um dataframe com intervalos de duração e a média das reprodução das músicas daquele intervalo.
+    musica_popularidade retorna uma relação entre a duração da música e sua popularidade.
+    :param dataframe: dataframe de onde são retiradas as informações.
+    :return: dataframe com intervalos de duração e a média das popularidades das músicas daquele intervalo.
     """
+    
     # Criação de máscaras para intervalos de 1 minuto de duração.
-    mask_0_a_2_minutos = dataframe['Duração'].between('0:00','2:00')
-    mask_2_a_3_minutos = dataframe['Duração'].between('2:01','3:00')
-    mask_3_a_4_minutos = dataframe['Duração'].between('3:01','4:00')
-    mask_4_a_5_minutos = dataframe['Duração'].between('4:01','5:00')
-    mask_5_a_6_minutos = dataframe['Duração'].between('5:01','6:00')
-    mask_6_a_7_minutos = dataframe['Duração'].between('6:01','7:00')
+    mask_0_a_2_minutos = dataframe['Duração'].between('00:00','02:00')
+    mask_2_a_3_minutos = dataframe['Duração'].between('02:01','03:00')
+    mask_3_a_4_minutos = dataframe['Duração'].between('03:01','04:00')
+    mask_4_a_5_minutos = dataframe['Duração'].between('04:01','05:00')
+    mask_5_a_6_minutos = dataframe['Duração'].between('05:01','06:00')
+    mask_6_a_7_minutos = dataframe['Duração'].between('06:01','11:00')
     # Criação de um dataframe com os intervalos de duração e com as médias de reprodução das músicas com duração naquele intervalo.
-    relacao = pd.DataFrame({'Intervalo de Duração': ['0 a 2 min', '2 a 3 min', '3 a 4 min', '4 a 5 min', '5 a 6 min', '6 a 7 min'],
-                            'Média de Reproduções': [
+    relacao = pd.DataFrame({'Intervalo de Duração': ['0:00 a 2:00 min', '2:01 a 3:00 min', '3:01 a 4:00 min', '4:01 a 5:00 min', '5:01 a 6:00 min', '6:01 a 7:00 min'],
+                            'Média de Popularidade': [
                                                     dataframe.loc[mask_0_a_2_minutos, ['Popularidade']].mean()[0],
                                                     dataframe.loc[mask_2_a_3_minutos, ['Popularidade']].mean()[0],
                                                     dataframe.loc[mask_3_a_4_minutos, ['Popularidade']].mean()[0],
@@ -128,18 +122,9 @@ def musica_popularidade(dataframe):
                                                     dataframe.loc[mask_5_a_6_minutos, ['Popularidade']].mean()[0],
                                                     dataframe.loc[mask_6_a_7_minutos, ['Popularidade']].mean()[0],
                                                     ]})
-    relacao = relacao.sort_values(['Média de Reproduções'], ascending=False)
+    relacao = relacao.sort_values(['Média de Popularidade'], ascending=False)
     
-    # print('\033[1;32m \nComo é possível observar na tabela abaixo, as músicas com maior média de reproduções \033[m', end='')
-    # print(f'\033[1;32mtêm duração dentro do intervalo de {relacao["Intervalo de Duração"].max()}: \033[m')
-    # print(relacao)
-    # if relacao["Intervalo de Duração"].max() <= '3:00':
-    #     print('\033[1;32m\nLogo, podemos concluir que músicas mais curtas são mais populares. \033[m')
-    # if '3;00' < relacao["Intervalo de Duração"].max() <= '4:00':
-    #     print('\033[1;32m\nLogo, podemos concluir que músicas de duração média são mais populares. \033[m')
-    # else:
-    #     print('\033[1;32m\nLogo, podemos concluir que músicas mais longas são mais populares. \033[m')
-    return relacao
+    return relacao.fillna(0)
 
 
                 ### GRUPO DE PERGUNTAS 2 ###
@@ -148,9 +133,11 @@ def musica_popularidade(dataframe):
 def palavra_titulo_album(dataframe):
     """
     palavra_titulo_album encontra a frequência das palavras dos nomes dos álbuns.
-    :param dataframe: Dataframe de onde são retiradas as informações.
-    :return: Retorna uma string com todas as palavras que formam os nomes dos álbuns e um dataframe com as palavras e o número de ocorrências.
+    :param dataframe: dataframe de onde são retiradas as informações.
+    :return palavras_titulo_album: uma string com todas as palavras que formam os nomes dos álbuns.
+    :return freq_palavras_album: um dataframe com as palavras e o número de ocorrências.
     """
+    
     # Array com os nomes únicos dos álbuns
     array_unicos = np.unique(dataframe['Álbuns'].unique())
     # Dataframe com os nomes únicos dos álbuns
@@ -172,7 +159,6 @@ def palavra_titulo_album(dataframe):
         palavras_titulo_album.append(palavras)
     palavras_titulo_album = ' '.join(palavras_titulo_album)
     
-    # print('\033[1;32m \nNão há uma palavra no título da música mais frequente do que outra, pois todas elas ocorrem apenas uma vez. Observe: \033[m \n', freq_palavras_album, sep='')
     return palavras_titulo_album, freq_palavras_album
 
     
@@ -180,9 +166,11 @@ def palavra_titulo_album(dataframe):
 def palavra_titulo_musica(dataframe):
     """
     palavra_titulo_musica encontra a frequência das palavras dos nomes das músicas.
-    :param dataframe: Dataframe de onde são retiradas as informações.
-    :return: Retorna uma string com todas as palavras que formam os nomes das músicas e um dataframe com as palavras e o número de ocorrências.
+    :param dataframe: dataframe de onde são retiradas as informações.
+    :return palavras_titulo_musica: uma string com todas as palavras que formam os nomes das músicas.
+    :return freq_palavras_musica: um dataframe com as palavras e o número de ocorrências.
     """
+    
     # Dataframe com as frequências das palavras dos nomes dos álbuns
         # .str.lower()    => transforma todas as letras em minúsculas
         # .str.split()    => separa as palavras de uma mesma "célula"por vírgulas
@@ -200,7 +188,6 @@ def palavra_titulo_musica(dataframe):
         palavras_titulo_musica.append(palavra)
     palavras_titulo_musica = ' '.join(palavras_titulo_musica)
     
-    # print('\033[1;32m \nAs palavras mais frequentes nos nomes das músicas são: \033[m \n', freq_palavras_musica.head(5), sep='')
     return palavras_titulo_musica, freq_palavras_musica
 
     
@@ -208,9 +195,11 @@ def palavra_titulo_musica(dataframe):
 def palavra_letra_album(dataframe):
     """
     palavra_letra_album encontra a frequência das palavras das letras das músicas, por álbum.
-    :param dataframe: Dataframe de onde são retiradas as informações.
-    :return: Retorna um dicionário com uma string para cada álbum contendo todas as palavras dele e um dicionário com um dataframe contendo as suas palavras únicas e o número de ocorrências delas.
+    :param dataframe: dataframe de onde são retiradas as informações.
+    :return dic_palavras_por_album: um dicionário com uma string para cada álbum contendo todas as palavras dele.
+    :return dic_freq_palav_por_album: um dicionário com um dataframe para cada álbum contendo as suas palavras únicas e o número de ocorrências delas.
     """
+    
     # Agrupamos a coluna de letras em relação aos álbuns e adicionamos a um dicionário.
     dicionario = dict(tuple(dataframe.groupby('Álbuns')['Letras']))
     # Dicionário com as strings das letras dos álbuns
@@ -249,10 +238,6 @@ def palavra_letra_album(dataframe):
             palavras_todas_as_letras.append(elemento)
         palavras_todas_as_letras = ' '.join(palavras_todas_as_letras)
         dic_palavras_por_album[chave] = palavras_todas_as_letras
-        
-    # print('\033[1;32m \nAs palavras mais frequentes nas letras das músicas, por álbum, são: \033[m \n')
-    # for album in dic_freq_palav_por_album:
-    #     print(f' \033[1;36m{ album }\033[m \n { dic_freq_palav_por_album[album].head(5) } \n')
 
     return dic_palavras_por_album, dic_freq_palav_por_album
     
@@ -261,9 +246,11 @@ def palavra_letra_album(dataframe):
 def palavra_letra_carreira(dataframe):
     """
     palavra_letra_carreira encontra a frequência das palavras das letras das músicas em relação a toda a discografia.
-    :param dataframe: Dataframe de onde são retiradas as informações.
-    :return: Retorna uma string com todas as palavras que formam as letras das músicas e um dataframe com as palavras e o número de ocorrências.
+    :param dataframe: dataframe de onde são retiradas as informações.
+    :return palavras_letras: uma string com todas as palavras que formam as letras das músicas.
+    :return freq_palav_letra_carreira: um dataframe com as palavras e o número de ocorrências.
     """
+    
     # Dataframe com as frequências das palavras das letras de cada música de um álbum
         # .str.lower()    => transforma todas as letras em minúsculas
         # .str.split()    => separa as palavras de uma mesma "célula"por vírgulas
@@ -281,17 +268,17 @@ def palavra_letra_carreira(dataframe):
         palavras_letras.append(palavra)
     palavras_letras = ' '.join(palavras_letras)
     
-    # print('\033[1;32m \nAs palavras mais frequentes nas letras das músicas são: \033[m \n', freq_palav_letra_carreira.head(10), sep='')
     return palavras_letras, freq_palav_letra_carreira
 
 
-## Recorrência do título de um álbum como tema das letras? ##
+## Recorrência do título de um álbum como tema das letras ##
 def titulo_album_nas_letras(dataframe):
     """
-    palavra_titulo_album encontra a frequência dos títulos dos álbuns na letra das músicas.
-    :param dataframe: Dataframe de onde são retiradas as informações.
-    :return: Retorna um dataframe com os nomes dos álbuns e o número de vezes que eles aparecem.
+    titulo_album_nas_letras encontra a frequência dos títulos dos álbuns na letra das músicas.
+    :param dataframe: dataframe de onde são retiradas as informações.
+    :return: dataframe com os nomes dos álbuns e o número de vezes que eles aparecem.
     """
+    
     # Agrupamos a coluna de letras em relação aos álbuns e adicionamos a um dicionário.
     dicionario = dict(tuple(dataframe.groupby('Álbuns')['Letras']))
     # Dicionário com as strings das letras dos álbuns
@@ -328,17 +315,17 @@ def titulo_album_nas_letras(dataframe):
     # Dataframe com o nome dos álbum e quantas vezes esse nome aparece na letra das músicas desse álbum.
     df_palavras_album = pd.DataFrame({'Nome do álbum':dic_palavras_album.keys(), 'Ocorrências nas músicas': freq_titulo_na_letra})
 
-    # print('\033[1;32m \nPara avaliar se o título do álbum é tema recorrente das letras das músicas, levamos em conta o número de vezes em que ele aparece na letra.', end='')
-    # print('\033[1;32m Em vista disso, geramos o seguinte dataframe: \033[m \n', df_palavras_album, sep='')
     return df_palavras_album
     
-## Recorrência do título de uma música como tema da letra? ##
+## Recorrência do título de uma música como tema da letra ##
 def titulo_musica_nas_letras(dataframe):
     """
-    palavra_titulo_album encontra a frequência dos títulos das músicas na letra da música respectiva música.
-    :param dataframe: Dataframe de onde são retiradas as informações.
-    :return: Retorna um dataframe com os nomes das músicas e o número de vezes que elas aparecem na respectiva música e o número de músicas mencionadas 1 ou nenhuma vez.
+    titulo_musica_nas_letras encontra a frequência dos títulos das músicas na letra da respectiva música.
+    :param dataframe: dataframe de onde são retiradas as informações.
+    :return df_palavras_musica: um dataframe com os nomes das músicas e o número de vezes que elas aparecem na respectiva música.
+    :return zero_ocorrencias: o número de músicas mencionadas 1 ou nenhuma vez.
     """
+    
     # Agrupamos a coluna de letras em relação às músicas e adicionamos a um dicionário.
     dicionario = dict(tuple(dataframe.groupby('Músicas')['Letras']))
     # Dicionário com as strings das letras dos álbuns
@@ -366,72 +353,9 @@ def titulo_musica_nas_letras(dataframe):
     zero_ocorrencias = len(df_palavras_musica[ df_palavras_musica['Ocorrências na música'] <= 1 ])
     df_palavras_musica = df_palavras_musica[ df_palavras_musica['Ocorrências na música'] > 10 ]
 
-    # print('\033[1;32m \nPara averiguar se o título da música é tema recorrente da letra, levamos em conta o número \033[m', end='')
-    # print(f'\033[1;32mde vezes que ele aparece na letra da música. Nesse sentido, {zero_ocorrencias} \033[m', end='')
-    # print('\033[1;32m nomes de músicas foram mencionados apenas 1 ou nenhum vez. Além disso, as 20 músicas cujos nomes mais apareceram na letra são: \n \033[m', df_palavras_musica.sort_values("Ocorrências na música", ascending = False).head(20), sep='')
     return df_palavras_musica, zero_ocorrencias
 
-
-# REMOVER ASSIM QUE O CÓDIGO ESTIVER PRONTO
-
-
-########## CÓDIGO PRINCIPAL ##########
-# Acionamento de todas as funções
-pd.options.display.max_columns = 5
-pd.options.display.float_format = "{:.2f}".format
-
-# Dataframe que usado
-dataframe = pd.read_excel('BD - Skillet.xlsx')
-
-# print(dataframe)
-
-
-
-# musica_ouvida_album(dataframe)
-
-# print('\033[1;36m~\033[m' * 50)
-
-musica_tamanho_album(dataframe)
-
-# print('\033[1;36m~\033[m' * 50)
-
-# musica_ouvida_carreira(dataframe)
-
-# print('\033[1;36m~\033[m' * 50)
-
-# musica_tamanho_carreira(dataframe)
-
-# print('\033[1;36m~\033[m' * 50)
-
-# NOT READY => mais_premiado(dataframe)
-
-# print('\033[1;36m~\033[m' * 50)
-
-# musica_popularidade(dataframe)
-
-# print('\033[1;36m~\033[m' * 50)
-
-# palavra_titulo_album(dataframe)
-
-# print('\033[1;36m~\033[m' * 50)
-
-# palavra_titulo_musica(dataframe)
-
-# print('\033[1;36m~\033[m' * 50)
-
-# palavra_letra_album(dataframe)
-
-# print('\033[1;36m~\033[m' * 50)
-
-# palavra_letra_carreira(dataframe)
-
-# print('\033[1;36m~\033[m' * 50)
-
-# titulo_album_nas_letras(dataframe)
-
-# print('\033[1;36m~\033[m' * 50)
-
-# titulo_musica_nas_letras(dataframe)
+# Aguardar novas funções
 
 
 

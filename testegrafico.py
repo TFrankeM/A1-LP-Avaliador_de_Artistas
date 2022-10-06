@@ -7,7 +7,7 @@ data1 = pd.read_excel('BD - Skillet.xlsx')
 
 mais_ouvidas, menos_ouvidas = pg.musica_ouvida_album(data1)
 
-sns.set_theme(style="whitegrid")
+sns.set_theme(style="darkgrid")
 
 p111 = sns.catplot(data=mais_ouvidas, x="Popularidade", y="Músicas",kind="bar",
                    hue="Álbuns",width = 5,height=8)

@@ -355,12 +355,94 @@ def titulo_musica_nas_letras(dataframe):
 
     return df_palavras_musica, zero_ocorrencias
 
-# Aguardar novas funções
+
+                ### GRUPO DE PERGUNTAS 3 - EXTRAS ###
+                
+## Álbum mais popular ##
+def album_popular(dataframe):
+    # Lista com os títulos dos álbuns.
+    titulos = np.unique(dataframe['Álbuns'].unique()).tolist()
+
+    # Lista com o número de faixas por álbum.
+    faixas = dataframe.groupby('Álbuns')['Álbuns'].value_counts().tolist()
+
+    # Lista com a soma da popularidade das músicas de cada álbum.
+    pop_soma = dataframe.groupby("Álbuns")['Popularidade'].sum().tolist()
+
+    # Dataframe com as informações da popularidade dos álbuns.
+    df_album_popularidade = pd.DataFrame({'Álbuns': titulos,
+                                          'Faixas': faixas,
+                                          'Soma popularidade':pop_soma})
+    # Adicionar coluna com a popularidade média de cada álbum.
+    df_album_popularidade['Média popularidade'] = (df_album_popularidade['Soma popularidade'] / df_album_popularidade['Faixas'])
+    df_album_popularidade = df_album_popularidade.sort_values(['Média popularidade'], ascending=False)
+
+    return df_album_popularidade
 
 
+## Mudanças de aspectos dos álbuns ao longo do tempo ##
+def mudancas_ao_longo_tempo(dataframe):
+    # Lista com os anos de lançamentos dos álbuns.
+    ano_lancamentos = dataframe.groupby('Álbuns')['Ano dos Lançamentos'].max().tolist()
+
+    # Lista com o número de faixas por álbum.
+    faixas = dataframe.groupby('Álbuns')['Álbuns'].value_counts().tolist()
+
+    # Lista com a média da popularidade de cada álbum.
+    pop_media = dataframe.groupby("Álbuns")['Popularidade'].mean().tolist()
+
+    # Lista com a duração total de cada álbum.
+        # Transformar a duração em minutos:
+    for linha, duracao in enumerate(dataframe['Duração']):
+        dataframe['Duração'][linha] = int(duracao[0:2])*60 + int(duracao[3:5])
+    duracao_album = dataframe.groupby('Álbuns')['Duração'].sum().tolist()
+
+    df_cronologico = pd.DataFrame({'Ano': ano_lancamentos,
+                                    'Faixas': faixas,
+                                    'Popularidade média': pop_media,
+                                    'Duração do álbum (seg)': duracao_album}).sort_values('Ano')
+    
+    return df_cronologico
 
 
+## Calcula a quantidade de palavras de sentido positivo e a quantidade de palavras de sentido negativo ##
+def positividade(dataframe):
+    sentido_palavras = pd.read_excel('Positive and Negative Word List.xlsx')
+    # Positive Sense Word
+    # Negative Sense Word
 
+    palavras_negativas = []
+    freq_palavras_negativas = []
+    palavras_positivas = []
+    freq_palavras_positivas = []
+
+    # Acionar função que conta a frequência das palavras
+    string, freq_todas_palavras = palavra_letra_carreira(dataframe)
+
+    # Verificar o sentido de cada palavra contida nas letras das músicas.
+    for linha, palavra in enumerate(freq_todas_palavras['Palavras únicas']):
+        # Palavras positivas
+        for palav_posit in sentido_palavras['Positive Sense Word']:
+            if palavra == palav_posit:
+                palavras_positivas.append(palavra)
+                freq_palavras_positivas.append(freq_todas_palavras['Ocorrências'].iloc[linha])
+
+        # Palavras negativas        
+        for palav_negat in sentido_palavras['Negative Sense Word']:
+            if palavra == palav_negat:
+                palavras_negativas.append(palavra)
+                freq_palavras_negativas.append(freq_todas_palavras['Ocorrências'].iloc[linha])
+    # Dataframe com as palavras positivas e as suas frequencias.
+    df_positivas = pd.DataFrame({'Palavras Positivas': palavras_positivas,
+                                  'Ocorrências Pos': freq_palavras_positivas})
+    # Dataframe com as palavras negativas e as suas frequencias.
+    df_negativas = pd.DataFrame({'Palavras Negativas': palavras_negativas,
+                                  'Ocorrências Neg': freq_palavras_negativas})
+
+    # Dataframe agrupado
+    df_sentido = pd.concat([df_positivas.head(20), df_negativas.head(20)], axis=1) 
+    
+    return df_sentido
 
 
 

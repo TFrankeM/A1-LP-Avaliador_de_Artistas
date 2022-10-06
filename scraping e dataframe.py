@@ -1,8 +1,9 @@
-from ast import Return
 import requests
-from bs4 import BeautifulSoup
 import pandas as pd
 import spotipy
+import numpy as np
+from ast import Return
+from bs4 import BeautifulSoup
 from spotipy.oauth2 import SpotifyClientCredentials
 
 
@@ -481,11 +482,55 @@ for id in tracks_id:
 # No spotfy, em um dos álbuns temos no álbum collide quando coletamos, aqui retiramos a popularidade dessa música
 del popularity[64]
 
+premios = []
+def Premios(qt1,qt2,qt3,qt4,qt5,qt6):
+    """
+    Premios retorna uma lista com os pêmios de cada álbum da banda skillet, premios de álbuns foram adicionados 
+    para todas as músicas daquele álbum, analogamente aos prêmios individuais de músicas, que cada prêmio foi 
+    somado a todas as múscias de cada álbum.
+    :param qt1,qt2,qt3,qt4,qt5,qt6: Quantidades usadas para adicionar os prêmios, essas quantidades são baseadas na quantidade de músicas
+    :return: Retorna uma lista com as quantidades de prêmios que cada álbum recebeu.
+    """
+    # Premios do álbum Dominion.
+    premios_dominion = np.zeros(qt1,dtype=int)
+    for item in premios_dominion:
+        premios.append(item)
+    
+    # Premios do álbum Unleashed.
+    premios_Unleashed = np.zeros(qt2,dtype=int)
+    for premio in premios_Unleashed:
+        premios.append(premio)
+    
+    # Premios do álbum Rise.
+    premios_Rise = np.ones(qt3,dtype=int)*3
+    for premio in premios_Rise:
+        premios.append(premio)
+    
+    # Premios do álbum Awake.
+    premios_awake = np.ones(qt4,dtype=int)
+    for premio in premios_awake:
+        premios.append(premio)
+
+    # Premios do álbum Comatose.
+    premios_comatose  = np.ones(qt5,dtype=int)
+    for premio in premios_comatose:
+        premios.append(premio)
+    
+    # O restante dos álbuns não tem prêmio algum.
+    premios_restantes  = np.zeros(qt6,dtype=int)
+    for premio in premios_restantes:
+        premios.append(premio)
+
+    return premios
+Premios(12,12,15,12,11,66)
+
+
 
 # Criando o DataFrame com os dados que temos
 dataframe_skillet = pd.DataFrame(list(zip(titulo_dos_albuns_repetidos,titulo_das_musicas,
                                             ano_lancamento_albuns_repetidos,duracao_das_musicas,popularity,
-                                            letras_das_musicas)),columns=["Álbuns","Músicas","Ano dos Lançamentos","Duração","Popularidade","Letras"])
+                                            premios,letras_das_musicas)),columns=["Álbuns","Músicas","Ano dos Lançamentos",
+                                                                                  "Duração","Popularidade","Prêmios","Letras"])
 
 # Adicionamos 0 na frente de cada duração com apenas 3 números para que a ordenação por duração funcione.
 for linha, duracao in enumerate(dataframe_skillet['Duração']):

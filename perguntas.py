@@ -93,8 +93,20 @@ def musica_tamanho_carreira(dataframe):
 
 ## Álbuns mais premiados ##
 def mais_premiado(dataframe):
-    pass
-    # return album_mais_premiado
+    """
+    mais_premiado encontra o álbum mais premiado da banda.
+    :param dataframe: dataframe de onde são retiradas as informações.
+    :return df_premios: dataframe com o nome dos álbuns e o número de premiações de cada um deles.
+    """
+    
+    # Lista com o número de prêmios por álbum.
+    premios = dataframe.groupby('Álbuns')['Prêmios'].first()
+
+    # Dataframe com o nome dos álbuns e o número de prêmios de cada um.
+    df_premios = pd.DataFrame({'Álbuns': premios.index,
+                                'Número de Prêmios': premios.tolist()}).sort_values('Número de Prêmios', ascending=False)
+    
+    return df_premios
 
 
 ## Relação entre a duração da música e sua popularidade ##
@@ -102,7 +114,7 @@ def musica_popularidade(dataframe):
     """
     musica_popularidade retorna uma relação entre a duração da música e sua popularidade.
     :param dataframe: dataframe de onde são retiradas as informações.
-    :return: dataframe com intervalos de duração e a média das popularidades das músicas daquele intervalo.
+    :return relacao: dataframe com intervalos de duração e a média das popularidades das músicas daquele intervalo.
     """
     
     # Criação de máscaras para intervalos de 1 minuto de duração.

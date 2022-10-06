@@ -25,7 +25,7 @@ def ler_banco_de_dados(arquivo, chamar_interface):
         dataframe = pd.read_excel(arquivo)
         
         # Nomes obrigatórios para as colunas
-        teste_de_titulo_coluna = dataframe[['Álbuns', 'Músicas', 'Ano dos Lançamentos', 'Duração', 'Popularidade', 'Letras']]
+        teste_de_titulo_coluna = dataframe[['Álbuns', 'Músicas', 'Ano dos Lançamentos', 'Duração', 'Popularidade', 'Prêmios', 'Letras']]
 
         # É levantado erro se a entrada de uma coluna não for de um tipo esperado.
         for album in dataframe['Álbuns']:
@@ -43,6 +43,9 @@ def ler_banco_de_dados(arquivo, chamar_interface):
         for popularidade in dataframe['Popularidade']:
             if isinstance(popularidade, (int, float)) == False:
                 raise TypeError(f'A entrada "{popularidade}" de "Popularidade" é do tipo string. Era esperado um int ou float.')
+        for premio in dataframe['Prêmios']:
+            if isinstance(premio, (int, float)) == False:
+                raise TypeError(f'A entrada "{premio}" de "Prêmios" é do tipo str. Era esperado um int ou float.')
         for letra in dataframe['Letras']:
             if isinstance(letra, (str)) == False:
                 raise TypeError(f'A entrada "{letra}" de "Letras" é do tipo int ou float. Era esperada uma str.')
@@ -104,7 +107,7 @@ def interface(dataframe):
     ## Músicas mais ouvidas e músicas menos ouvidas com base na popularidade [em toda a história da banda ou artista] ##
     mais_ouvidas_carreira, menos_ouvidas_carreira = pg.musica_ouvida_carreira(dataframe)
     print('\033[1;36m \nMÚSICAS MAIS E MENOS OUVIDAS \033[m')
-    print('\033[1;32m As músicas mais ouvidas, com base na popularidade, entre todas as músicas da banda são: \033[m \n\n', mais_ouvidas_carreira[['Álbuns','Músicas','Popularidade']].to_string(index=False), sep='')
+    print('\033[1;32mAs músicas mais ouvidas, com base na popularidade, entre todas as músicas da banda são: \033[m \n\n', mais_ouvidas_carreira[['Álbuns','Músicas','Popularidade']].to_string(index=False), sep='')
     print('\033[1;32m \nAs músicas menos ouvidas, com base na popularidade, entre todas as músicas da banda são: \033[m \n\n', menos_ouvidas_carreira[['Álbuns','Músicas','Popularidade']].to_string(index=False), sep='')
     
     print('\n' + '\033[1;36m~\033[m' * 80)
@@ -120,9 +123,10 @@ def interface(dataframe):
     
     
     ## Álbuns mais premiados ##
-    # NOT READY => pg.mais_premiado(dataframe)
+    df_premios = pg.mais_premiado(dataframe)
     print('\033[1;36m \nÁLBUNS MAIS PREMIADOS\033[m')
-    print('NOT READY')
+    print(f'\033[1;32mO álbum mais premiado da banda é {df_premios["Álbuns"].iloc[0]}. Observer o esquema completo: \033[m')
+    print(df_premios.to_string(index=False))
     
     print('\n' + '\033[1;36m~\033[m' * 80)
     
@@ -132,7 +136,7 @@ def interface(dataframe):
     print('\033[1;36m \nRELAÇÃO ENTRE DURAÇÃO E POPULARIDADE DA MÚSICA\033[m')
     print('\033[1;32mComo é possível observar na tabela abaixo, as músicas com maior popularidade \033[m', end='')
     print(f'\033[1;32mtêm duração dentro do intervalo de {relacao["Intervalo de Duração"].iloc[0]}: \033[m')
-    print(relacao)
+    print(relacao.to_string(index=False))
     
     print('\033[1;32m \nLogo, podemos concluir que as músicas de até 4 minutos são as mais populares. \033[m')
     

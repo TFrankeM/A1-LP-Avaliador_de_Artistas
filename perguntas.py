@@ -360,6 +360,12 @@ def titulo_musica_nas_letras(dataframe):
                 
 ## Álbum mais popular ##
 def album_popular(dataframe):
+    """
+    album_popular analisa a popularidade dos álbuns para encontrar o mais popular.
+    :param dataframe: dataframe de onde são retiradas as informações.
+    :return df_album_popularidade: dataframe com o nome, o número de faixas, a soma da popularidade das músicas e a popularidade média de cada álbum.
+    """
+    
     # Lista com os títulos dos álbuns.
     titulos = np.unique(dataframe['Álbuns'].unique()).tolist()
 
@@ -382,6 +388,12 @@ def album_popular(dataframe):
 
 ## Mudanças de aspectos dos álbuns ao longo do tempo ##
 def mudancas_ao_longo_tempo(dataframe):
+    """
+    mudancas_ao_longo_tempo analisa como aspectos técnicos da discografia da banda mudaram ao longo do tempo.
+    :param dataframe: dataframe de onde são retiradas as informações.
+    :return df_album_popularidade: dataframe com o ano de lançamento, número de faixas, popularidade média e duração total do álbum.
+    """
+    
     # Lista com os anos de lançamentos dos álbuns.
     ano_lancamentos = dataframe.groupby('Álbuns')['Ano dos Lançamentos'].max().tolist()
 
@@ -407,43 +419,51 @@ def mudancas_ao_longo_tempo(dataframe):
 
 ## Calcula a quantidade de palavras de sentido positivo e a quantidade de palavras de sentido negativo ##
 def positividade(dataframe):
+    """
+    positividade analisa as palavras de todas as músicas classificando-as em positivas, negativas ou nenhuma das anteriores.
+    :param dataframe: dataframe de onde são retiradas as informações.
+    :return string_negativa: string com as palavras negativas.
+    :return string_positiva: string com as palavras positivas.
+    :return df_negativas: dataframe com as palavras negativas e o número de vezes em que elas aparecem.
+    :return df_positivas: dataframe com as palavras positivas e o número de vezes em que elas aparecem.
+    """
+    
     sentido_palavras = pd.read_excel('Positive and Negative Word List.xlsx')
     # Positive Sense Word
     # Negative Sense Word
 
     palavras_negativas = []
-    freq_palavras_negativas = []
     palavras_positivas = []
-    freq_palavras_positivas = []
 
-    # Acionar função que conta a frequência das palavras
-    string, freq_todas_palavras = palavra_letra_carreira(dataframe)
-
-    # Verificar o sentido de cada palavra contida nas letras das músicas.
-    for linha, palavra in enumerate(freq_todas_palavras['Palavras únicas']):
-        # Palavras positivas
-        for palav_posit in sentido_palavras['Positive Sense Word']:
-            if palavra == palav_posit:
-                palavras_positivas.append(palavra)
-                freq_palavras_positivas.append(freq_todas_palavras['Ocorrências'].iloc[linha])
-
-        # Palavras negativas        
-        for palav_negat in sentido_palavras['Negative Sense Word']:
-            if palavra == palav_negat:
+    palavras_nas_letras = dataframe["Letras"].str.lower().str.split().explode().str.replace("[(){}[?!.:;,/-]","", regex=True)
+    for palavra in palavras_nas_letras:
+        for palav_neg in sentido_palavras['Negative Sense Word']:
+            if palavra == palav_neg:
                 palavras_negativas.append(palavra)
-                freq_palavras_negativas.append(freq_todas_palavras['Ocorrências'].iloc[linha])
-    # Dataframe com as palavras positivas e as suas frequencias.
-    df_positivas = pd.DataFrame({'Palavras Positivas': palavras_positivas,
-                                  'Ocorrências Pos': freq_palavras_positivas})
-    # Dataframe com as palavras negativas e as suas frequencias.
-    df_negativas = pd.DataFrame({'Palavras Negativas': palavras_negativas,
-                                  'Ocorrências Neg': freq_palavras_negativas})
+                
+        for palav_pos in sentido_palavras['Positive Sense Word']:
+            if palavra == palav_pos:
+                palavras_positivas.append(palavra)
+                
+    # Strings.
+        # Palavras negativas.
+    string_negativa = ' '.join(palavras_negativas)
+        # Palavras positivas.
+    string_positiva = ' '.join(palavras_positivas)
 
-    # Dataframe agrupado
-    df_sentido = pd.concat([df_positivas.head(20), df_negativas.head(20)], axis=1) 
-    
-    return df_sentido
+    # Palavras únicas e suas frequências
+    pal_neg, freq_neg = np.unique(palavras_negativas, return_counts=True)
+    pal_pos, freq_pos = np.unique(palavras_positivas, return_counts=True)
 
+    # Agrupar palavras únicas e suas frequências em dataframes.
+    df_negativas = pd.DataFrame({'Palavras Negativas': pal_neg.tolist(),
+                                          'Ocorrências Neg': freq_neg.tolist()}).sort_values('Ocorrências Neg', ascending=False)
+    df_positivas = pd.DataFrame({'Palavras Positivas': pal_pos.tolist(),
+                                          'Ocorrências Pos': freq_pos.tolist()}).sort_values('Ocorrências Pos', ascending=False)
 
+    # Resetar o index.
+    df_negativas = df_negativas.reset_index(drop=True)
+    df_positivas = df_positivas.reset_index(drop=True)
 
+    return string_negativa, string_positiva, df_negativas, df_positivas
 

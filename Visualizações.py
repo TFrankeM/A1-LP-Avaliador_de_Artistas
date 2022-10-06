@@ -22,6 +22,7 @@ dataframe = it.ler_banco_de_dados(arquivo, False)
 def grafico1(dataframe):
     mais_ouvidas, menos_ouvidas = pg.musica_ouvida_album(dataframe)
     mais_ouvidas.plot(x='Álbuns', y='Popularidade')
+    plt.show()
 
 
 grafico1(dataframe)
@@ -36,4 +37,5 @@ def wordcloud1(dataframe):
 
     # store to file
     wc.to_file("WordCloud1.png")
+    plt.show()
 wordcloud1(dataframe)

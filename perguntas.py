@@ -134,7 +134,7 @@ def musica_popularidade(dataframe):
                                                     dataframe.loc[mask_5_a_6_minutos, ['Popularidade']].mean()[0],
                                                     dataframe.loc[mask_6_a_7_minutos, ['Popularidade']].mean()[0],
                                                     ]})
-    relacao = relacao.sort_values(['Média de Popularidade'], ascending=False)
+    #relacao = relacao.sort_values(['Média de Popularidade'], ascending=False)
     
     return relacao.fillna(0)
 

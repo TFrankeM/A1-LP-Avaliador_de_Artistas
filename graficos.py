@@ -61,3 +61,15 @@ def grafico_musica_mais_ouvida_carreira(dataframe):
     p142.set_axis_labels("Popularidade", "")
     plt.title("Músicas menos populares em toda a carreira")
     return plt.savefig('imagens\Músicas menos populares em toda a carreira.png')
+
+def mais_premiado(dataframe):
+    premiacao = pg.mais_premiado(dataframe)
+    p15 = sns.catplot(data=premiacao, x="Número de Prêmios", y="Álbuns",kind="bar",height=8)
+    plt.title("Premiação dos álbuns")
+    return plt.savefig('imagens\Premiação dos álbuns.png')
+
+def grafico_musica_popularidade(dataframe):
+    popularidade = pg.musica_popularidade(dataframe)
+    p15 = sns.lineplot(data=popularidade, y="Média de Popularidade", x = "Intervalo de Duração")
+    plt.title("Relação entre duração e popularidade")
+    return plt.savefig('imagens\Relação entre duração e popularidade.png')

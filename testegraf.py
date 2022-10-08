@@ -2,24 +2,20 @@ import seaborn as sns
 import pandas as pd
 import perguntas as pg
 import matplotlib.pyplot as plt
-import graficos as gf
+import numpy as np
 
 dataframe = pd.read_excel('BD - Skillet.xlsx')
-df = dataframe
 
-def grafico_mudancas_ao_longo_tempo(dataframe):
-    df = pg.mudancas_ao_longo_tempo(dataframe)
-    figure, left_ax = plt.subplots()
-    left_ax.plot(df['Ano'], df['Duração do álbum (seg)'], color='red')
-    left_ax.set_ylabel('Duração do álbum (seg)', color='red')
+##### Grupo de perguntas 1 #####
 
-    # Cria eixo Y na direita e plota dados nele
-    right_ax = left_ax.twinx()
-    right_ax.plot(df['Ano'], df['Popularidade média'], color='blue')
-    right_ax.set_ylabel('Popularidade média', color='blue')
-    plt.title("Mudanças nos álbuns ao longo do tempo")
-    return plt.savefig("imagens\Mudanças nos álbuns ao longo do tempo.png")
-
-grafico_mudancas_ao_longo_tempo(df)
-# Mostra o gráfico
+#Músicas mais ouvidas e músicas menos ouvidas por Álbum
+def grafico_musica_popularidade_por_album(dataframe):
+    dic_de_dataframes = pg.musica_ouvida_album(dataframe)
+    for album in dic_de_dataframes:
+        grafico = sns.catplot(data=dic_de_dataframes[album], x="Popularidade", y="Músicas",
+                              kind="bar",height=8,palette="ch:rot=-.75,hue=0.5,light=.75")
+        grafico.set_axis_labels("Popularidade","Músicas")
+        plt.title(f"Popularidade das músicas do álbum {album}")
+        plt.subplots_adjust(top=0.96)
+grafico_musica_popularidade_por_album(dataframe)
 plt.show()

@@ -19,9 +19,10 @@ O módulo “<i>perguntas.py</i>” contém as funções de análise do banco de
 <h3>Visualização</h3>
 <p>
 As funções que geram as peças de visualização estão contidas no módulo “<i>graficos.py</i>”. Essa etapa é ativada por meio do arquivo “<i>executargraficos.py</i>”.
-<hr>
+<br>
 As visualizações podem ser encontradas dentro da pasta “<i>imagens</i>” ou no arquivo “<i>Visualizações.pdf</i>”.
 </p>
+<hr>
 
 <h3>Requisitos</h3>
 <p>

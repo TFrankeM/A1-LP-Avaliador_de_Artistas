@@ -4,6 +4,7 @@ import perguntas as pg
 import matplotlib.pyplot as plt
 import numpy as np
 
+
 #Pegando o arquivo
 dataframe = pd.read_excel('BD - Skillet.xlsx')
 
@@ -93,8 +94,7 @@ mais_premiado(dataframe)
 #Existe alguma relação entre a duração da música e sua popularidade?
 def grafico_musica_popularidade(dataframe):
     popularidade = pg.musica_popularidade(dataframe)
-    grafico = sns.lineplot(data=popularidade, y="Média de Popularidade", x = "Intervalo de Duração",
-                           palette=paleta)
+    grafico = sns.lineplot(data=popularidade, y="Média de Popularidade", x = "Intervalo de Duração",)
     plt.title("Relação entre duração e popularidade")
     plt.subplots_adjust(top=0.96)
     return plt.savefig('imagens\Grupo 1\Relação entre duração e popularidade.png')

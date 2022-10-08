@@ -4,6 +4,7 @@ import numpy as np
 import interface as it
 import perguntas as pg
 
+
 # Banco de dados visualizado
 arquivo = 'BD - Skillet.xlsx'
 # Recebe apenas o dataframe, sem acionar o módulo de perguntas.

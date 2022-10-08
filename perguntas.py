@@ -395,7 +395,7 @@ def album_popular(dataframe):
                                           'Soma popularidade':pop_soma})
     # Adicionar coluna com a popularidade média de cada álbum.
     df_album_popularidade['Média popularidade'] = (df_album_popularidade['Soma popularidade'] / df_album_popularidade['Faixas'])
-    df_album_popularidade = df_album_popularidade.sort_values(['Média popularidade'], ascending=False)
+    #df_album_popularidade = df_album_popularidade.sort_values(['Média popularidade'], ascending=False)
 
     return df_album_popularidade
 

@@ -18,11 +18,4 @@ gf.grafico_musica_mais_curta_carreira(df)
 gf.grafico_musica_mais_ouvida_carreira(df)
 gf.grafico_musica_menos_ouvida_carreira(df)
 gf.mais_premiado(df)
-
-
-
-
-
-
-gf.mais_premiado(df)
-plt.show()
+print("Ok")

@@ -9,21 +9,23 @@ def musica_ouvida_album(dataframe):
     """
     musica_ouvida_album retorna as músicas mais ouvidas e as músicas menos ouvidas com base na popularidade, por álbum.
     :param dataframe: dataframe de onde são retiradas as informações.
-    :return mais_ouvidas: dataframe com as músicas mais ouvidas por álbum.
-    :return menos_ouvidas: dataframe com as músicas menor ouvidas por álbum.
+    :return dic_de_dataframes: dicionário com um dataframe para cada álbum com suas músicas ordenadas por popularidade.
     """ 
     
-    # Frame do dataframe com as 3 músicas mais ouvidas de cada álbum.
-        # .sort_values(['Álbuns','Reproduções'], ascending=False) => ordena 1º em relação a 'Álbuns' e depois a 'Reproduções' em ordem decrescente.
-        # .groupby('Álbuns').head(3)                              => seleciona as 3 musicas mais ouvidas de cada álbum.   
-    mais_ouvidas = dataframe.sort_values(['Álbuns','Popularidade'], ascending=False).groupby('Álbuns').head(3)
+    # .sort_values(['Álbuns','Popularidade'], ascending=False) => ordena 1º em relação a 'Álbuns' e depois a 'Popularidade' em ordem decrescente.
+    dataframe = dataframe.sort_values(['Álbuns','Popularidade'], ascending=False)
     
-    # Frame do dataframe com as 3 músicas menos ouvidas de cada álbum.
-        # .sort_values(['Álbuns','Reproduções'], ascending=False) => ordena 1º em relação a 'Álbuns' e depois a 'Reproduções' em ordem decrescente
-        # .groupby('Álbuns').tail(3)                              => seleciona as 3 musicas menos ouvidas de cada álbum.
-    menos_ouvidas = dataframe.sort_values(['Álbuns','Popularidade'], ascending=True).groupby('Álbuns').head(3)
+    # Nome único dos álbuns
+    albuns_unicos = dataframe['Álbuns'].unique()
+    
+    # Dicionário com os nomes dos álbuns
+    dic_de_dataframes_pop = {elem : pd.DataFrame() for elem in albuns_unicos}
+    
+    # Adicionar ao dicionário o conteúdo: as músicas de cada álbum ordenadas pela popularidade
+    for chave in dic_de_dataframes_pop.keys():
+        dic_de_dataframes_pop[chave] = dataframe[:][dataframe['Álbuns'] == chave]
 
-    return mais_ouvidas, menos_ouvidas
+    return dic_de_dataframes_pop
 
 
 ## Músicas mais longas e músicas mais curtas por álbum ##
@@ -31,21 +33,22 @@ def musica_tamanho_album(dataframe):
     """
     musica_tamanho_album retorna as músicas mais longas e as músicas mais curtas por álbum.
     :param dataframe: dataframe de onde são retiradas as informações.
-    :return mais_longas: dataframe com as músicas mais longas por álbum.
-    :return mais_curtas: dataframe com as músicas mais curtas por álbum.
+    :return dic_de_dataframes_dur: dicionário com um dataframe para cada álbum com suas músicas ordenadas por duração.
     """ 
+    # .sort_values(['Álbuns','Duração'], ascending=False) => ordena 1º em relação a 'Álbuns' e depois a 'Duração' em ordem decrescente.
+    dataframe = dataframe.sort_values(['Álbuns','Duração'], ascending=False)
     
-    # Frame do dataframe com as 3 músicas mais longas de cada álbum.
-        # .sort_values(['Álbuns','Duração'], ascending=False) => ordena 1º em relação a 'Álbuns' e depois a 'Duração' em ordem decrescente.
-        # .groupby('Álbuns').head(3)                          => seleciona as 3 musicas mais longas de cada álbum.
-    mais_longas = dataframe.sort_values(['Álbuns','Duração'], ascending=False).groupby('Álbuns').head(3)        
-                                                                                                       
-    # Frame do dataframe com as 3 músicas mais curtas de cada álbum.
-        # .sort_values(['Álbuns','Duração'], ascending=False) => ordena 1º em relação a 'Álbuns' e depois a 'Duração' em ordem decrescente.
-        # .groupby('Álbuns').tail(3)                          => seleciona as 3 musicas mais curtas de cada álbum.
-    mais_curtas = dataframe.sort_values(['Álbuns','Duração'], ascending=True).groupby('Álbuns').head(3)
+    # Nome único dos álbuns
+    albuns_unicos = dataframe['Álbuns'].unique()
     
-    return mais_longas, mais_curtas
+    # Dicionário com os nomes dos álbuns
+    dic_de_dataframes_dur = {elem : pd.DataFrame() for elem in albuns_unicos}
+    
+    # Adicionar ao dicionário o conteúdo: as músicas de cada álbum ordenadas pela popularidade
+    for chave in dic_de_dataframes_dur.keys():
+        dic_de_dataframes_dur[chave] = dataframe[:][dataframe['Álbuns'] == chave]
+    
+    return dic_de_dataframes_dur
     
     
 ## Músicas mais ouvidas e músicas menos ouvidas com base na popularidade [em toda a história da banda ou artista] ##
@@ -134,7 +137,6 @@ def musica_popularidade(dataframe):
                                                     dataframe.loc[mask_5_a_6_minutos, ['Popularidade']].mean()[0],
                                                     dataframe.loc[mask_6_a_7_minutos, ['Popularidade']].mean()[0],
                                                     ]})
-    #relacao = relacao.sort_values(['Média de Popularidade'], ascending=False)
     
     return relacao.fillna(0)
 
@@ -430,19 +432,16 @@ def mudancas_ao_longo_tempo(dataframe):
 
 
 ## Calcula a quantidade de palavras de sentido positivo e a quantidade de palavras de sentido negativo ##
-def positividade(dataframe):
+def positividade(dataframe, sentido_palavras):
     """
     positividade analisa as palavras de todas as músicas classificando-as em positivas, negativas ou nenhuma das anteriores.
     :param dataframe: dataframe de onde são retiradas as informações.
+    :param sentido_palavras: dataframe com as palavras classificadas de acordo com a sua conotação.
     :return string_negativa: string com as palavras negativas.
     :return string_positiva: string com as palavras positivas.
     :return df_negativas: dataframe com as palavras negativas e o número de vezes em que elas aparecem.
     :return df_positivas: dataframe com as palavras positivas e o número de vezes em que elas aparecem.
     """
-    
-    sentido_palavras = pd.read_excel('Positive and Negative Word List.xlsx')
-    # Positive Sense Word
-    # Negative Sense Word
 
     palavras_negativas = []
     palavras_positivas = []
@@ -476,6 +475,6 @@ def positividade(dataframe):
     # Resetar o index.
     df_negativas = df_negativas.reset_index(drop=True)
     df_positivas = df_positivas.reset_index(drop=True)
-
+        
     return string_negativa, string_positiva, df_negativas, df_positivas
 

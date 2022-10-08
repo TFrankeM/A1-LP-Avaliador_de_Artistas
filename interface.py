@@ -62,7 +62,7 @@ def ler_banco_de_dados(arquivo, chamar_interface):
         print('O arquivo fornecido não foi encontrado.')
     # Tratameto de erro para se não houver um nome obrigatório de coluna.
     except KeyError:
-        print('Este módulo funciona apenas com nomes de colunas predefinidos. São eles: "Álbuns", "Músicas", "Ano dos Lançamentos", "Duração", "Popularidade", "Letras" ')
+        print('Este módulo funciona apenas com nomes de colunas predefinidos. São eles: "Álbuns", "Músicas", "Ano dos Lançamentos", "Duração", "Popularidade", "Prêmios", "Letras" ')
     
     except TypeError as error:
         print(error)
@@ -82,24 +82,37 @@ def interface(dataframe):
     print('\033[1;36m~\033[m' * 80)
     
     
-            # Acionamento de todas as funções
+        # Acionamento de todas as funções
 
                 ### GRUPO DE PERGUNTAS 1 ###    
     
+    
     ## Músicas mais ouvidas e músicas menos ouvidas com base na popularidade por Álbum ##
-    mais_ouvidas, menos_ouvidas = pg.musica_ouvida_album(dataframe)
+    dic_de_dataframes_pop = pg.musica_ouvida_album(dataframe)
     print('\033[1;36m \nMÚSICAS MAIS E MENOS OUVIDAS POR ÁLBUM\033[m')
-    print('\033[1;32mCom base na popularidade, as músicas mais ouvida de cada álbum foram: \033[m \n\n', mais_ouvidas[['Álbuns','Músicas','Popularidade']].to_string(index=False), sep='')
-    print('\033[1;32m \nCom base na popularidade, as músicas menos ouvida de cada álbum foram: \033[m \n\n', menos_ouvidas[['Álbuns','Músicas','Popularidade']].to_string(index=False), sep='')
+    
+    print('\033[1;32mCom base na popularidade, as músicas mais ouvida de cada álbum foram: ')
+    for album in dic_de_dataframes_pop:
+        print(f' \033[1;36m{ album }\033[m \n { dic_de_dataframes_pop[album][["Músicas","Popularidade"]].head(5).to_string(index=False) } \n')
+
+    print('\033[1;32m \nCom base na popularidade, as músicas menos ouvida de cada álbum foram: ')
+    for album in dic_de_dataframes_pop:
+        print(f' \033[1;36m{ album }\033[m \n { dic_de_dataframes_pop[album][["Músicas","Popularidade"]].sort_values("Popularidade", ascending=True).head(5).to_string(index=False) } \n')
     
     print('\n' + '\033[1;36m~\033[m' * 80)
     
     
     ## Músicas mais longas e músicas mais curtas por álbum ##
-    mais_longas, mais_curtas = pg.musica_tamanho_album(dataframe)
+    dic_de_dataframes_dur = pg.musica_tamanho_album(dataframe)
     print('\033[1;36m \nMÚSICAS MAIS LONGAS E MAIS CURTAS POR ÁLBUM \033[m')
-    print('\033[1;32mAs músicas mais longas de cada álbum são: \033[m \n\n', mais_longas[['Álbuns','Músicas','Duração']].to_string(index=False), sep='')
-    print('\033[1;32m \nAs músicas mais curtas de cada álbum são: \033[m \n\n', mais_curtas[['Álbuns','Músicas','Duração']].to_string(index=False), sep='')
+    
+    print('\033[1;32mAs músicas mais longas de cada álbum são: ')
+    for album in dic_de_dataframes_dur:
+        print(f' \033[1;36m{ album }\033[m \n { dic_de_dataframes_dur[album][["Músicas","Duração"]].head(5).to_string(index=False) } \n')
+
+    print('\033[1;32m \nAs músicas mais curtas de cada álbum são: ')
+    for album in dic_de_dataframes_dur:
+        print(f' \033[1;36m{ album }\033[m \n { dic_de_dataframes_dur[album][["Músicas","Duração"]].sort_values("Duração", ascending=True).head(5).to_string(index=False) } \n')
     
     print('\n' + '\033[1;36m~\033[m' * 80)
     
@@ -107,6 +120,7 @@ def interface(dataframe):
     ## Músicas mais ouvidas e músicas menos ouvidas com base na popularidade [em toda a história da banda ou artista] ##
     mais_ouvidas_carreira, menos_ouvidas_carreira = pg.musica_ouvida_carreira(dataframe)
     print('\033[1;36m \nMÚSICAS MAIS E MENOS OUVIDAS \033[m')
+    
     print('\033[1;32mAs músicas mais ouvidas, com base na popularidade, entre todas as músicas da banda são: \033[m \n\n', mais_ouvidas_carreira[['Álbuns','Músicas','Popularidade']].to_string(index=False), sep='')
     print('\033[1;32m \nAs músicas menos ouvidas, com base na popularidade, entre todas as músicas da banda são: \033[m \n\n', menos_ouvidas_carreira[['Álbuns','Músicas','Popularidade']].to_string(index=False), sep='')
     
@@ -116,6 +130,7 @@ def interface(dataframe):
     ## Músicas mais longas e músicas mais curtas [em toda a história da banda ou artista] ##
     mais_longas_carreira, mais_curtas_carreira = pg.musica_tamanho_carreira(dataframe)
     print('\033[1;36m \nMÚSICAS MAIS LONGAS E MAIS CURTAS \033[m')
+    
     print('\033[1;32mAs músicas mais longas entre todas as músicas da banda são: \033[m \n\n', mais_longas_carreira[['Álbuns','Músicas','Duração']].to_string(index=False), sep='')
     print('\033[1;32m \nAs músicas mais curtas entre todas as músicas da banda são: \033[m \n\n', mais_curtas_carreira[['Álbuns','Músicas','Duração']].to_string(index=False), sep='')
     
@@ -125,6 +140,7 @@ def interface(dataframe):
     ## Álbuns mais premiados ##
     df_premios = pg.mais_premiado(dataframe)
     print('\033[1;36m \nÁLBUNS MAIS PREMIADOS\033[m')
+    
     print(f'\033[1;32mO álbum mais premiado da banda é {df_premios["Álbuns"].iloc[0]}. Observer o esquema completo: \033[m')
     print(df_premios.to_string(index=False))
     
@@ -133,7 +149,9 @@ def interface(dataframe):
     
     ## Relação entre a duração da música e sua popularidade ##
     relacao = pg.musica_popularidade(dataframe)
+    relacao = relacao.sort_values(['Média de Popularidade'], ascending=False)
     print('\033[1;36m \nRELAÇÃO ENTRE DURAÇÃO E POPULARIDADE DA MÚSICA\033[m')
+    
     print('\033[1;32mComo é possível observar na tabela abaixo, as músicas com maior popularidade \033[m', end='')
     print(f'\033[1;32mtêm duração dentro do intervalo de {relacao["Intervalo de Duração"].iloc[0]}: \033[m')
     print(relacao.to_string(index=False))
@@ -144,6 +162,7 @@ def interface(dataframe):
     
 
                 ### GRUPO DE PERGUNTAS 2 ###
+
 
     ## Palavras mais comuns nos títulos dos Álbuns ##
     palavras_titulo_album, freq_palavras_album = pg.palavra_titulo_album(dataframe)
@@ -200,12 +219,13 @@ def interface(dataframe):
     
     print('\033[1;32mPara averiguar se o título da música é tema recorrente da letra, levamos em conta o número \033[m', end='')
     print(f'\033[1;32mde vezes que ele aparece na letra da música. Nesse sentido, {zero_ocorrencias} \033[m', end='')
-    print('\033[1;32m nomes de músicas foram mencionados apenas 1 ou nenhum vez. Além disso, as 20 músicas cujos nomes mais apareceram na letra são: \n \033[m', df_palavras_musica.sort_values("Ocorrências na música", ascending = False).head(20), sep='')
+    print('\033[1;32m nomes de músicas foram mencionados apenas 1 ou nenhum vez. Além disso, as 20 músicas cujos nomes mais apareceram na letra são: \n \033[m', df_palavras_musica.sort_values("Ocorrências na música", ascending = False).head(20).to_string(index=False), sep='')
 
     print('\n' + '\033[1;36m~\033[m' * 80)
 
 
                 ### GRUPO DE PERGUNTAS 3 - EXTRAS ###
+
 
     ## Álbum mais popular ##
     album_popularidade = pg.album_popular(dataframe)
@@ -227,26 +247,41 @@ def interface(dataframe):
     print('\033[1;32mfaixas, a popularidade média e a duração dos álbuns mudaram ao longo da trajetória da banda: \033[m')
     print(df_cronologico.to_string(index=False))
     print('\033[1;32m \nNão é possível tirar conclusões significativas sobre a duração dos álbuns, mas é perceptível que a popularidade\033[m', end='')
-    print('\033[1;32mda banda cresceu com o passar do tempo.\033[m')
+    print('\033[1;32m da banda cresceu com o passar do tempo.\033[m')
     
     print('\n' + '\033[1;36m~\033[m' * 80)
     
     
     ## Calcula a quantidade de palavras de sentido positivo e a quantidade de palavras de sentido negativo ##
-    string_negativa, string_positiva, df_negativas, df_positivas = pg.positividade(dataframe)
-    # Agrupar os dataframes das palavavras positivas e negativas.
-    df_sentido = pd.concat([df_positivas.head(20), df_negativas.head(20)], axis=1)
     print('\033[1;36m \nCONOTAÇÃO DAS PALAVRAS\033[m')
-    
-    print('\n\033[1;32mFormada em 1996 em Memphis, Tennesse, Skillet é uma banda de rock alternativo cristão e, portanto, tem músicas \033[m', end='')
-    print('\033[1;32mcarregadas com a temática religiosa. Nesse sentido, decidimos depositar nossa atenção sobre as letras de suas \033[m', end='')
-    print('\033[1;32mmúsicas, a fim de encontrar um padrão em suas palavras. O método utilizado foi classificar as palavras de acordo \033[m', end='')
-    print('\033[1;32mcom o seu sentido (em positivo/bom ou negativo/ruim) utilizando o banco de dados "Positive and Negative Word List" \033[m', end='')
-    print(f'\033[1;32mcomo parâmetro. Foram encontradas {df_negativas["Ocorrências Neg"].sum()} palavras de conotação negativa e {df_positivas["Ocorrências Pos"].sum()} \033[m', end='')
-    print('\033[1;32mpalavras de conotação positiva nas letras das músicas. As 20 palavras mais comuns desses dois grupos são as seguintes: \033[m')
-    print(df_sentido)
+    try:
+        # Ler banco de dados com a conotação das palavras.
+        sentido_palavras = pd.read_excel('Positive and Negative Word List.xlsx')
 
+        # Nomes obrigatórios para as colunas
+        teste_de_titulo_coluna = sentido_palavras[['Positive Sense Word', 'Negative Sense Word']]
+                    
+        string_negativa, string_positiva, df_negativas, df_positivas = pg.positividade(dataframe, sentido_palavras)
+        # Agrupar os dataframes das palavavras positivas e negativas.
+        df_sentido = pd.concat([df_positivas.head(20), df_negativas.head(20)], axis=1)
+        
+        print('\n\033[1;32mFormada em 1996 em Memphis, Tennesse, Skillet é uma banda de rock alternativo cristão e, portanto, tem músicas \033[m', end='')
+        print('\033[1;32mcarregadas com a temática religiosa. Nesse sentido, decidimos depositar nossa atenção sobre as letras de suas \033[m', end='')
+        print('\033[1;32mmúsicas, a fim de encontrar um padrão em suas palavras. O método utilizado foi classificar as palavras de acordo \033[m', end='')
+        print('\033[1;32mcom o seu sentido (em positivo/bom ou negativo/ruim) utilizando o banco de dados "Positive and Negative Word List" \033[m', end='')
+        print(f'\033[1;32mcomo parâmetro. Foram encontradas {df_negativas["Ocorrências Neg"].sum()} palavras de conotação negativa e {df_positivas["Ocorrências Pos"].sum()} \033[m', end='')
+        print('\033[1;32mpalavras de conotação positiva nas letras das músicas. As 20 palavras mais comuns desses dois grupos são as seguintes: \033[m')
+        print(df_sentido)
+        
+    # Erro para se "Positive and Negative Word List.xlsx" não for encontrado.
+    except FileNotFoundError:
+        print('Esta função precisa do banco de dados "Positive and Negative Word List.xlsx" para funcionar.')
+    # Erro para se não houver um nome obrigatório de coluna.
+    except KeyError:
+        print('Este módulo funciona apenas com nomes de colunas predefinidos. São eles: "Positive Sense Word", "Negative Sense Word".')
     
+    except TypeError as error:
+        print(error)
     
     
     

@@ -1,19 +1,34 @@
 import seaborn as sns
 import pandas as pd
 import perguntas as pg
-import matplotlib.pyplot as plt
-import numpy as np
-from tkinter import *
 
 dataframe = pd.read_excel('BD - Skillet.xlsx')
-paleta = "ch:rot=-.75,hue=0.5,light=.75"
-# a = pg.titulo_album_nas_letras(dataframe)
+sentido_palavras = pd.read_excel('Positive and Negative Word List.xlsx')
+
+# string_negativa, string_positiva, df_negativas, df_positivas = pg.positividade(dataframe,sentido_palavras)
+# a,b,c,d=string_negativa, string_positiva, df_negativas, df_positivas
 # print(a)
-def grafico_musica_popularidade(dataframe):
-    popularidade = pg.musica_popularidade(dataframe)
-    grafico = sns.lineplot(data=popularidade, y="Média de Popularidade", x = "Intervalo de Duração",)
-    plt.title("Relação entre duração e popularidade")
-    plt.subplots_adjust(top=0.96)
-    return plt.savefig('imagens\Grupo 1\Relação entre duração e popularidade.png')
-grafico_musica_popularidade(dataframe)
-plt.show()
+# print("############################################################")
+# print(b)
+# print("############################################################")
+# print(c)
+# print("############################################################")
+# print(d)
+# print("############################################################")
+
+try:
+    string_negativa, string_positiva, df_negativas, df_positivas = pg.positividade(dataframe, sentido_palavras)
+
+    # Máscara que vai mudar o formato da imagem
+    titulomusicaetmask = np.array(Image.open("imagens/Grupo 2/skillet nome.jpg"))
+
+    # Gerando a wordcloud
+    wctitulo = WordCloud(background_color="white", mask=titulomusicaetmask, contour_width=3, contour_color="black")
+    wctitulo.generate(palavras_titulo_musica)
+
+    # Mudando as cores.
+    cores = ImageColorGenerator(titulomusicaetmask)
+    wctitulo.recolor(color_func=cores)
+    wctitulo.to_file("imagens/Grupo 2/Wc_Titulos_das_Musicas.jpg")
+except FileNotFoundError:
+    print("A máscara para a wordcloud não foi encontrada.")

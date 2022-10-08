@@ -8,12 +8,23 @@ import numpy as np
 #Pegando o arquivo
 dataframe = pd.read_excel('BD - Skillet.xlsx')
 
+##### Grupo de perguntas 1 #####
+
+#Existe alguma relação entre a duração da música e sua popularidade?
+
+def grafico_musica_popularidade(dataframe):
+    popularidade = pg.musica_popularidade(dataframe)
+    grafico = sns.lineplot(data=popularidade, y="Média de Popularidade", x = "Intervalo de Duração")
+    plt.title("Relação entre duração e popularidade")
+    plt.subplots_adjust(top=0.96)
+    return plt.savefig('imagens\Grupo 1\Relação entre duração e popularidade.png')
+grafico_musica_popularidade(dataframe)
+
 #definindo a paleta de cores
 paleta = "ch:rot=-.75,hue=0.5,light=.75"
 
-##### Grupo de perguntas 1 #####
-
 #Músicas mais ouvidas e músicas menos ouvidas por Álbum
+
 def grafico_musica_popularidade_por_album(dataframe):
     dic_de_dataframes = pg.musica_ouvida_album(dataframe)
     for album in dic_de_dataframes:
@@ -91,14 +102,7 @@ def mais_premiado(dataframe):
     plt.subplots_adjust(top=0.96)
     return plt.savefig('imagens\Grupo 1\Premiação dos álbuns.png')
 mais_premiado(dataframe)
-#Existe alguma relação entre a duração da música e sua popularidade?
-def grafico_musica_popularidade(dataframe):
-    popularidade = pg.musica_popularidade(dataframe)
-    grafico = sns.lineplot(data=popularidade, y="Média de Popularidade", x = "Intervalo de Duração",)
-    plt.title("Relação entre duração e popularidade")
-    plt.subplots_adjust(top=0.96)
-    return plt.savefig('imagens\Grupo 1\Relação entre duração e popularidade.png')
-grafico_musica_popularidade(dataframe)
+
 
 ##### Gráficos de perguntas 2 #####
 

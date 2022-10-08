@@ -1,8 +1,7 @@
 from PIL import Image
 from wordcloud import STOPWORDS, WordCloud, ImageColorGenerator
-import numpy as np
 import interface as it
-import perguntas as pg
+
 
 # Banco de dados visualizado
 arquivo = 'BD - Skillet.xlsx'
@@ -36,7 +35,7 @@ def WcTituloMusicas(dataframe):
         palavras_titulo_musica, freq_palavras_musica = pg.palavra_titulo_musica(dataframe)
 
         # Máscara que vai mudar o formato da imagem
-        titulomusicaetmask = np.array(Image.open("imagens/WordClouds/skillet nome.jpg"))
+        titulomusicaetmask = np.array(Image.open("imagens/Grupo 2/skillet nome.jpg"))
 
         # Gerando a wordcloud
         wctitulo = WordCloud(background_color="white", mask=titulomusicaetmask, contour_width=3, contour_color="black")
@@ -82,7 +81,7 @@ def WcLetraCarreira(dataframe):
     try:
         # Chamndo a função, pegando a lista que será usada e adicionando a mascara.
         palavras_letras, freq_palav_letra_carreira = pg.palavra_letra_carreira(dataframe)
-        letrascarreiramask = np.array(Image.open("imagens/WordClouds/frigideira.jpg"))
+        letrascarreiramask = np.array(Image.open("imagens/Grupo 2/frigideira.jpg"))
         wcletracarreira = WordCloud(background_color="white", mask=letrascarreiramask)
         wcletracarreira.generate(palavras_letras)
 

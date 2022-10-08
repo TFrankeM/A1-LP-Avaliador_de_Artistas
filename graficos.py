@@ -1,6 +1,6 @@
 import seaborn as sns
 import pandas as pd
-import perguntas1 as pg
+import perguntas as pg
 import matplotlib.pyplot as plt
 
 #dataframe = pd.read_excel('BD - Skillet.xlsx')

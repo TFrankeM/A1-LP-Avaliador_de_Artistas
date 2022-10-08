@@ -3,7 +3,7 @@ import pandas as pd
 import perguntas as pg
 import matplotlib.pyplot as plt
 
-#dataframe = pd.read_excel('BD - Skillet.xlsx')
+dataframe = pd.read_excel('BD - Skillet.xlsx')
 
 ##### Grupo de perguntas 1 #####
 

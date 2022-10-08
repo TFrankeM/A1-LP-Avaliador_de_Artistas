@@ -3,12 +3,12 @@ import matplotlib.pyplot as plt
 import pandas as pd
 
 dataframe = pd.read_excel('BD - Skillet.xlsx')
-gf.grafico_musica_popularidade(dataframe)
 
+gf.grafico_musica_popularidade(dataframe)
+gf.grafico_mudancas_ao_longo_tempo(dataframe)
+dataframe = pd.read_excel('BD - Skillet.xlsx')
 for linha, duracao in enumerate(dataframe['Duração']):
     dataframe['Duração'][linha] = int(duracao[0:2]) * 60 + int(duracao[3:5])
-
-
 
 df = dataframe
 gf.grafico_musica_popularidade_por_album(df)
@@ -19,5 +19,3 @@ gf.grafico_musica_mais_ouvida_carreira(df)
 gf.grafico_musica_menos_ouvida_carreira(df)
 gf.mais_premiado(df)
 gf.grafico_album_popular(df)
-gf.grafico_mudancas_ao_longo_tempo(df)
-print("Ok")

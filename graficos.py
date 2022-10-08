@@ -88,7 +88,6 @@ def grafico_album_popular(dataframe):
     plt.subplots_adjust(top=0.96)
     return plt.savefig("imagens\Músicas mais longas em toda a carreira")
 
-
 def grafico_mudancas_ao_longo_tempo(dataframe):
     df = pg.mudancas_ao_longo_tempo(dataframe)
     figure, left_ax = plt.subplots()

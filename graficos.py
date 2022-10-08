@@ -4,16 +4,20 @@ import perguntas as pg
 import matplotlib.pyplot as plt
 import numpy as np
 
+#Pegando o arquivo
 dataframe = pd.read_excel('BD - Skillet.xlsx')
 
+#definindo a paleta de cores
+paleta = "ch:rot=-.75,hue=0.5,light=.75"
+
 ##### Grupo de perguntas 1 #####
-sns.set_theme(style="white", rc={"axes.facecolor": (0, 0, 0, 0)})
+
 #Músicas mais ouvidas e músicas menos ouvidas por Álbum
 def grafico_musica_popularidade_por_album(dataframe):
     dic_de_dataframes = pg.musica_ouvida_album(dataframe)
     for album in dic_de_dataframes:
         grafico = sns.catplot(data=dic_de_dataframes[album], x="Popularidade", y="Músicas",
-                              kind="bar",height=8, palette="ch:rot=-.75,hue=0.5,light=.75")
+                              kind="bar",height=8, palette=paleta)
         grafico.set_axis_labels("Popularidade","Músicas")
         plt.title(f"Popularidade das músicas do álbum {album}")
         plt.subplots_adjust(top=0.96)
@@ -28,7 +32,7 @@ def grafico_tamanho_por_album(dataframe):
     dic_de_dataframes = pg.musica_tamanho_album(dataframe)
     for album in dic_de_dataframes:
         grafico = sns.catplot(data=dic_de_dataframes[album], x="Duração", y="Músicas",
-                              kind="bar",height=8, palette="ch:rot=-.75,hue=0.5,light=.75")
+                              kind="bar",height=8, palette=paleta)
         grafico.set_axis_labels("Duração","Músicas")
         plt.title(f"Tamanho das músicas do álbum {album}")
         plt.subplots_adjust(top=0.96)
@@ -40,7 +44,7 @@ grafico_tamanho_por_album(dataframe)
 def grafico_musica_mais_longa_carreira(dataframe):
     mais_longas_carreira, mais_curtas_carreira = pg.musica_tamanho_carreira(dataframe)
     grafico = sns.catplot(data=mais_longas_carreira, x="Duração", y="Músicas",
-                          kind="bar",height=8, palette="ch:rot=-.75,hue=0.5,light=.75")
+                          kind="bar",height=8, palette=paleta)
     grafico.set_axis_labels("Duração","")
     plt.title("Músicas mais longas em toda a carreira")
     plt.subplots_adjust(top=0.96)
@@ -49,7 +53,7 @@ grafico_musica_mais_longa_carreira(dataframe)
 def grafico_musica_mais_curta_carreira(dataframe):
     mais_longas_carreira, mais_curtas_carreira = pg.musica_tamanho_carreira(dataframe)
     grafico = sns.catplot(data=mais_curtas_carreira, x="Duração", y="Músicas",
-                          kind="bar",height=8, palette="ch:rot=-.75,hue=0.5,light=.75")
+                          kind="bar",height=8, palette=paleta)
     grafico.set_axis_labels("Duração","")
     plt.title("Músicas mais curtas em toda a carreira")
     plt.subplots_adjust(top=0.96)
@@ -59,7 +63,7 @@ def grafico_musica_mais_curta_carreira(dataframe):
 def grafico_musica_mais_ouvida_carreira(dataframe):
     mais_ouvidas_carreira, menos_ouvidas_carreira = pg.musica_ouvida_carreira(dataframe)
     grafico = sns.catplot(data=mais_ouvidas_carreira, x="Popularidade", y="Músicas",
-                          kind="bar",height=8, palette="ch:rot=-.75,hue=0.5,light=.75")
+                          kind="bar",height=8, palette=paleta)
     grafico.set_axis_labels("Popularidade", "")
     plt.title("Músicas mais populares em toda a carreira")
     plt.subplots_adjust(top=0.96)
@@ -68,7 +72,7 @@ def grafico_musica_mais_ouvida_carreira(dataframe):
 def grafico_musica_menos_ouvida_carreira(dataframe):
     mais_ouvidas_carreira, menos_ouvidas_carreira = pg.musica_ouvida_carreira(dataframe)
     grafico = sns.catplot(data=menos_ouvidas_carreira, x="Popularidade", y="Músicas",
-                          kind="bar",height=8, palette="ch:rot=-.75,hue=0.5,light=.75")
+                          kind="bar",height=8, palette=paleta)
     grafico.set_axis_labels("Popularidade", "")
     plt.title("Músicas menos populares em toda a carreira")
     plt.subplots_adjust(top=0.96)
@@ -81,7 +85,7 @@ dataframe = pd.read_excel('BD - Skillet.xlsx')
 def mais_premiado(dataframe):
     premiacao = pg.mais_premiado(dataframe)
     grafico = sns.catplot(data=premiacao, x="Número de Prêmios", y="Álbuns",
-                          kind="bar",height=8, palette="ch:rot=-.75,hue=0.5,light=.75")
+                          kind="bar",height=8, palette=paleta)
     plt.title("Premiação dos álbuns")
     plt.subplots_adjust(top=0.96)
     return plt.savefig('imagens\Grupo 1\Premiação dos álbuns.png')
@@ -90,7 +94,7 @@ mais_premiado(dataframe)
 def grafico_musica_popularidade(dataframe):
     popularidade = pg.musica_popularidade(dataframe)
     grafico = sns.lineplot(data=popularidade, y="Média de Popularidade", x = "Intervalo de Duração",
-                           palette="ch:rot=-.75,hue=0.5,light=.75")
+                           palette=paleta)
     plt.title("Relação entre duração e popularidade")
     plt.subplots_adjust(top=0.96)
     return plt.savefig('imagens\Grupo 1\Relação entre duração e popularidade.png')
@@ -195,17 +199,35 @@ def WcLetraCarreira(dataframe):
 
 WcLetraCarreira(dataframe)
 
+def recorrencia_titulo_album(dataframe):
+    a = pg.titulo_album_nas_letras(dataframe)
+    grafico = sns.catplot(data=a, x="Ocorrências nas músicas", y="Nome do álbum",
+                          kind="bar", height=8, palette=paleta)
+    grafico.set_axis_labels("Ocorrências na música", "Nome do álbum")
+    plt.title("Recorrência do título do álbum na letra")
+    plt.subplots_adjust(top=0.96)
+recorrencia_titulo_album(dataframe)
+
+def recorrencia_titulo_musica(dataframe):
+    a, b = pg.titulo_musica_nas_letras(dataframe)
+    grafico = sns.catplot(data=a, x="Ocorrências na música", y="Nome da música",
+                          kind="bar", height=8, palette=paleta)
+    grafico.set_axis_labels("Ocorrências na música", "Nome da música")
+    plt.title("Recorrência do título da música na letra")
+    plt.subplots_adjust(top=0.96)
+recorrencia_titulo_musica(dataframe)
+
 
 ##### Gráficos de perguntas 3 #####
 
 def grafico_album_popular(dataframe):
     p = pg.album_popular(dataframe)
     grafico = sns.catplot(data=p, x="Média popularidade", y="Álbuns",
-                          kind="bar",height=8, palette="ch:rot=-.75,hue=0.5,light=.75")
+                          kind="bar",height=8, palette=paleta)
     grafico.set_axis_labels("Popularidade","Álbuns")
-    plt.title("Músicas mais longas em toda a carreira")
+    plt.title("Popularidade dos álbuns")
     plt.subplots_adjust(top=0.96)
-    return plt.savefig("imagens\Grupo 3\Músicas mais longas em toda a carreira")
+    return plt.savefig("imagens\Grupo 3\Popularidade dos álbuns")
 grafico_album_popular(dataframe)
 
 def grafico_mudancas_ao_longo_tempo(dataframe):

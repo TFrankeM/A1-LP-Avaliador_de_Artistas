@@ -70,7 +70,7 @@ def grafico_musica_mais_curta_carreira(dataframe):
     plt.title("Músicas mais curtas em toda a carreira")
     plt.subplots_adjust(top=0.96)
     return plt.savefig('imagens\Grupo 1\Músicas mais curtas em toda a carreira.png')
-
+grafico_musica_mais_curta_carreira(dataframe)
 #Músicas mais longas e músicas mais curtas [em toda a história da banda ou artista]
 def grafico_musica_mais_ouvida_carreira(dataframe):
     mais_ouvidas_carreira, menos_ouvidas_carreira = pg.musica_ouvida_carreira(dataframe)
@@ -80,7 +80,7 @@ def grafico_musica_mais_ouvida_carreira(dataframe):
     plt.title("Músicas mais populares em toda a carreira")
     plt.subplots_adjust(top=0.96)
     return plt.savefig('imagens\Grupo 1\Músicas mais populares em toda a carreira.png')
-
+grafico_musica_mais_ouvida_carreira(dataframe)
 def grafico_musica_menos_ouvida_carreira(dataframe):
     mais_ouvidas_carreira, menos_ouvidas_carreira = pg.musica_ouvida_carreira(dataframe)
     grafico = sns.catplot(data=menos_ouvidas_carreira, x="Popularidade", y="Músicas",
@@ -89,7 +89,7 @@ def grafico_musica_menos_ouvida_carreira(dataframe):
     plt.title("Músicas menos populares em toda a carreira")
     plt.subplots_adjust(top=0.96)
     return plt.savefig('imagens\Grupo 1\Músicas menos populares em toda a carreira.png')
-
+grafico_musica_menos_ouvida_carreira(dataframe)
 
 #Voltando o dataframe original para o resto das funções
 dataframe = pd.read_excel('BD - Skillet.xlsx')

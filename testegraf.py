@@ -1,6 +1,10 @@
 import seaborn as sns
 import pandas as pd
 import perguntas as pg
+from PIL import Image
+from wordcloud import STOPWORDS, WordCloud, ImageColorGenerator
+import interface as it
+import numpy as np
 
 dataframe = pd.read_excel('BD - Skillet.xlsx')
 sentido_palavras = pd.read_excel('Positive and Negative Word List.xlsx')
@@ -24,11 +28,11 @@ try:
 
     # Gerando a wordcloud
     wctitulo = WordCloud(background_color="white", mask=titulomusicaetmask, contour_width=3, contour_color="black")
-    wctitulo.generate(palavras_titulo_musica)
+    wctitulo.generate(df_negativas)
 
     # Mudando as cores.
     cores = ImageColorGenerator(titulomusicaetmask)
     wctitulo.recolor(color_func=cores)
-    wctitulo.to_file("imagens/Grupo 2/Wc_Titulos_das_Musicas.jpg")
+    wctitulo.to_file("imagens/Grupo 3/Wc_Titulos_das_Musicas.jpg")
 except FileNotFoundError:
     print("A máscara para a wordcloud não foi encontrada.")

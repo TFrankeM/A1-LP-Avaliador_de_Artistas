@@ -80,3 +80,24 @@ def grafico_musica_popularidade(dataframe):
     return plt.savefig('imagens\Relação entre duração e popularidade.png')
 
 ##### Gráficos de perguntas 3 #####
+def grafico_album_popular(dataframe):
+    p = pg.album_popular(dataframe)
+    grafico = sns.catplot(data=p, x="Média popularidade", y="Álbuns",kind="bar",height=8)
+    grafico.set_axis_labels("Popularidade","Álbuns")
+    plt.title("Músicas mais longas em toda a carreira")
+    plt.subplots_adjust(top=0.96)
+    return plt.savefig("imagens\Músicas mais longas em toda a carreira")
+
+
+def grafico_mudancas_ao_longo_tempo(dataframe):
+    df = pg.mudancas_ao_longo_tempo(dataframe)
+    figure, left_ax = plt.subplots()
+    left_ax.plot(df['Ano'], df['Duração do álbum (seg)'], color='red')
+    left_ax.set_ylabel('Duração do álbum (seg)', color='red')
+
+    # Cria eixo Y na direita e plota dados nele
+    right_ax = left_ax.twinx()
+    right_ax.plot(df['Ano'], df['Popularidade média'], color='blue')
+    right_ax.set_ylabel('Popularidade média', color='blue')
+    plt.title("Mudanças nos álbuns ao longo do tempo")
+    return plt.savefig("imagens\Mudanças nos álbuns ao longo do tempo.png")

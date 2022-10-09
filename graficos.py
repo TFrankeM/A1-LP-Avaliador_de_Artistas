@@ -256,24 +256,24 @@ def conotacao_das_palavras(dataframe, sentido_palavras):
         string_negativa, string_positiva, df_negativas, df_positivas = pg.positividade(dataframe, sentido_palavras)
 
         # Máscara que vai mudar o formato da imagem
-        titulomusicaetmask = np.array(Image.open("imagens/Grupo 3/Moldes/caveira.jpg"))
+        mascara = np.array(Image.open("imagens/Grupo 3/Moldes/demonio.jpg"))
         # Gerando a wordcloud
-        wctitulo = WordCloud(background_color="gray", mask=titulomusicaetmask, contour_width=3, contour_color="black")
-        wctitulo.generate(string_negativa)
+        wc = WordCloud(background_color="white", mask=mascara)
+        wc.generate(string_negativa)
         # Mudando as cores.
-        cores = ImageColorGenerator(titulomusicaetmask)
-        wctitulo.recolor(color_func=cores)
-        wctitulo.to_file("imagens/Grupo 3/Palavras negativas.jpg")
+        cores = ImageColorGenerator(mascara)
+        wc.recolor(color_func=cores)
+        wc.to_file("imagens/Grupo 3/Palavras negativas.jpg")
 
         # Máscara que vai mudar o formato da imagem
-        titulomusicaetmask = np.array(Image.open("imagens/Grupo 3/Moldes/pomba.jpg"))
+        mascara = np.array(Image.open("imagens/Grupo 3/Moldes/pombinha.jpg"))
         # Gerando a wordcloud
-        wctitulo = WordCloud(background_color="white", mask=titulomusicaetmask, contour_width=3, contour_color="black")
-        wctitulo.generate(string_positiva)
+        wc = WordCloud(background_color="white", mask=mascara)
+        wc.generate(string_positiva)
         # Mudando as cores.
-        cores = ImageColorGenerator(titulomusicaetmask)
-        wctitulo.recolor(color_func=cores)
-        wctitulo.to_file("imagens/Grupo 3/Palavras positivas.jpg")
+        cores = ImageColorGenerator(mascara)
+        wc.recolor(color_func=cores)
+        wc.to_file("imagens/Grupo 3/Palavras positivas.jpg")
     except FileNotFoundError:
         print("A máscara para a wordcloud não foi encontrada.")
 conotacao_das_palavras(dataframe, sentido_palavras)

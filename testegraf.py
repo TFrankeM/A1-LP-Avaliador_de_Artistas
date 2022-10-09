@@ -25,14 +25,22 @@ try:
 
     # Máscara que vai mudar o formato da imagem
     titulomusicaetmask = np.array(Image.open("imagens/Grupo 2/skillet nome.jpg"))
-
     # Gerando a wordcloud
-    wctitulo = WordCloud(background_color="white", mask=titulomusicaetmask, contour_width=3, contour_color="black")
-    wctitulo.generate(df_negativas)
-
+    wctitulo = WordCloud(background_color="gray", mask=titulomusicaetmask, contour_width=3, contour_color="black")
+    wctitulo.generate(string_negativa)
     # Mudando as cores.
     cores = ImageColorGenerator(titulomusicaetmask)
     wctitulo.recolor(color_func=cores)
-    wctitulo.to_file("imagens/Grupo 3/Wc_Titulos_das_Musicas.jpg")
+    wctitulo.to_file("imagens/Grupo 3/Palavras negativas.jpg")
+
+    # Máscara que vai mudar o formato da imagem
+    titulomusicaetmask = np.array(Image.open("imagens/Grupo 2/skillet nome.jpg"))
+    # Gerando a wordcloud
+    wctitulo = WordCloud(background_color="white", mask=titulomusicaetmask, contour_width=3, contour_color="black")
+    wctitulo.generate(string_positiva)
+    # Mudando as cores.
+    cores = ImageColorGenerator(titulomusicaetmask)
+    wctitulo.recolor(color_func=cores)
+    wctitulo.to_file("imagens/Grupo 3/Palavras positivas.jpg")
 except FileNotFoundError:
     print("A máscara para a wordcloud não foi encontrada.")

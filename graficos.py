@@ -249,3 +249,31 @@ def grafico_mudancas_ao_longo_tempo(dataframe):
     plt.title("Mudanças nos álbuns ao longo do tempo")
     return plt.savefig("imagens\Grupo 3\Mudanças nos álbuns ao longo do tempo.png")
 grafico_mudancas_ao_longo_tempo(dataframe)
+
+sentido_palavras = pd.read_excel('Positive and Negative Word List.xlsx')
+def conotacao_das_palavras(dataframe, sentido_palavras):
+    try:
+        string_negativa, string_positiva, df_negativas, df_positivas = pg.positividade(dataframe, sentido_palavras)
+
+        # Máscara que vai mudar o formato da imagem
+        titulomusicaetmask = np.array(Image.open("imagens/Grupo 3/Moldes/caveira.jpg"))
+        # Gerando a wordcloud
+        wctitulo = WordCloud(background_color="gray", mask=titulomusicaetmask, contour_width=3, contour_color="black")
+        wctitulo.generate(string_negativa)
+        # Mudando as cores.
+        cores = ImageColorGenerator(titulomusicaetmask)
+        wctitulo.recolor(color_func=cores)
+        wctitulo.to_file("imagens/Grupo 3/Palavras negativas.jpg")
+
+        # Máscara que vai mudar o formato da imagem
+        titulomusicaetmask = np.array(Image.open("imagens/Grupo 3/Moldes/pomba.jpg"))
+        # Gerando a wordcloud
+        wctitulo = WordCloud(background_color="white", mask=titulomusicaetmask, contour_width=3, contour_color="black")
+        wctitulo.generate(string_positiva)
+        # Mudando as cores.
+        cores = ImageColorGenerator(titulomusicaetmask)
+        wctitulo.recolor(color_func=cores)
+        wctitulo.to_file("imagens/Grupo 3/Palavras positivas.jpg")
+    except FileNotFoundError:
+        print("A máscara para a wordcloud não foi encontrada.")
+conotacao_das_palavras(dataframe, sentido_palavras)

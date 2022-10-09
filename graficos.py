@@ -210,6 +210,7 @@ def recorrencia_titulo_album(dataframe):
     grafico.set_axis_labels("Ocorrências na música", "Nome do álbum")
     plt.title("Recorrência do título do álbum na letra")
     plt.subplots_adjust(top=0.96)
+    return plt.savefig("imagens/Grupo 2/Recorrência do título do álbum na letra.jpg")
 recorrencia_titulo_album(dataframe)
 
 def recorrencia_titulo_musica(dataframe):
@@ -219,6 +220,7 @@ def recorrencia_titulo_musica(dataframe):
     grafico.set_axis_labels("Ocorrências na música", "Nome da música")
     plt.title("Recorrência do título da música na letra")
     plt.subplots_adjust(top=0.96)
+    return plt.savefig("imagens/Grupo 2/Recorrência do título da música na letra.jpg")
 recorrencia_titulo_musica(dataframe)
 
 
